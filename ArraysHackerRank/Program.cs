@@ -10,11 +10,11 @@ class Program
         Console.WriteLine(variable);*/
         
         
-        /*List<string> stringList = new List<string>(){"ab", "ab", "abc"};
+        List<string> stringList = new List<string>(){"ab", "ab", "abc"};
         List<string> queries = new List<string>(){"ab", "abc", "abcd", "abcde"};
         List<int> matchCount = matchingStrings(stringList, queries);
         foreach (int val in matchCount)
-            Console.WriteLine(val);*/
+            Console.WriteLine(val);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -54,15 +54,21 @@ class Program
     public static List<int> matchingStrings(List<string> stringList, List<string> queries) //https://www.hackerrank.com/challenges/sparse-arrays/problem?isFullScreen=true
     {
         List<int> result = new List<int>();
-        for (int i = 0; i < queries.Count; i++)
+        
+        Dictionary<string,int> dict = new Dictionary<string,int>();
+        for (int i = 0; i < stringList.Count; i++)
         {
-            result.Add(0);
-            for (int j = 0; j < stringList.Count; j++)
-            {
-                if (stringList[j].Equals(queries[i]))
-                    result[i]++;
-            }
+            if (dict.ContainsKey(stringList[i]))
+                dict[stringList[i]]++;
+            else 
+                dict.Add(stringList[i], 1);
         }
+
+        for (int i = 0; i < queries.Count; i++)
+            if (dict.TryGetValue(queries[i], out int temp))
+            result.Add(temp);
+        else
+            result.Add(0);
         return result;
     }
 }

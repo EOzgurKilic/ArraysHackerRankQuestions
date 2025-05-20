@@ -12,3 +12,4 @@ C:\Users\Yusei\RiderProjects\ArraysHackerRank\ArraysHackerRank\obj\Debug\net8.0\
 C:\Users\Yusei\RiderProjects\ArraysHackerRank\ArraysHackerRank\obj\Debug\net8.0\ArraysHackerRank.pdb
 C:\Users\Yusei\RiderProjects\ArraysHackerRank\ArraysHackerRank\obj\Debug\net8.0\ArraysHackerRank.genruntimeconfig.cache
 C:\Users\Yusei\RiderProjects\ArraysHackerRank\ArraysHackerRank\obj\Debug\net8.0\ref\ArraysHackerRank.dll
+C:\Users\Yusei\RiderProjects\ArraysHackerRank\ArraysHackerRank\obj\Debug\net8.0\ArraysHackerRank.sourcelink.json
