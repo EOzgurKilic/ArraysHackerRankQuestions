@@ -20,11 +20,12 @@ class Program
         
         List<List<int>> list = new List<List<int>>()
         {
-            new List<int>(){1,2,100},
-            new List<int>(){2,5,100},
-            new List<int>(){3,4,100}
+            new List<int>(){1,2,10},
+            new List<int>(){2,4,80},
+            new List<int>(){5,6,100},
+            new List<int>(){3,5,10}
         };
-        long result = arrayManipulation(10,list);
+        long result = arrayManipulation(6,list);
         Console.WriteLine(result);
     }
 
@@ -85,25 +86,43 @@ class Program
     
     public static long arrayManipulation(int n, List<List<int>> queries) //https://www.hackerrank.com/challenges/crush/problem?isFullScreen=true
     {
-        int highestVal = 0;
-        List<int> tempArr = new List<int>();
-        List<int> queriesInd = new List<int>();
-        List<List<int>> operationArr = new List<List<int>>();
-        
+        /*int highestVal = 0;
+        List<int> operationArr = new List<int>();
         for (int j = 0; j < n; j++)
-            tempArr.Add(0);
+            operationArr.Add(0);
         
-        for (int i = 0; i < queries.Count; i++)
+        foreach (var queriesInd in queries)
         {
-            queriesInd = queries[i];
             for (int j = queriesInd[0]-1; j < queriesInd[1]; j++)
             {   
-                tempArr[j] += queriesInd[2];
-                highestVal = tempArr[j] > highestVal ? tempArr[j] : highestVal;
+                operationArr[j] += queriesInd[2];
+                highestVal = operationArr[j] > highestVal ? operationArr[j] : highestVal;
             }
-            operationArr.Add(new List<int>(tempArr));
         }
         
-        return highestVal;
+        return highestVal;*/
+        int[] arr = new int[n + 2]; 
+
+        foreach (var query in queries)
+        {
+            int a = query[0];
+            int b = query[1];
+            int k = query[2];
+
+            arr[a] += k;
+            arr[b + 1] -= k;
+        }
+
+        long max = 0;
+        long current = 0;
+
+        for (int i = 1; i <= n; i++)
+        {
+            current += arr[i];
+            if (current > max)
+                max = current;
+        }
+
+        return max;
     }
 }
