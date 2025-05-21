@@ -1,4 +1,6 @@
-﻿namespace ArraysHackerRank;
+﻿using System.Net.Sockets;
+
+namespace ArraysHackerRank;
 
 class Program
 {
@@ -10,11 +12,20 @@ class Program
         Console.WriteLine(variable);*/
         
         
-        List<string> stringList = new List<string>(){"ab", "ab", "abc"};
+        /*List<string> stringList = new List<string>(){"ab", "ab", "abc"};
         List<string> queries = new List<string>(){"ab", "abc", "abcd", "abcde"};
         List<int> matchCount = matchingStrings(stringList, queries);
         foreach (int val in matchCount)
-            Console.WriteLine(val);
+            Console.WriteLine(val);*/
+        
+        List<List<int>> list = new List<List<int>>()
+        {
+            new List<int>(){1,2,100},
+            new List<int>(){2,5,100},
+            new List<int>(){3,4,100}
+        };
+        long result = arrayManipulation(10,list);
+        Console.WriteLine(result);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -70,5 +81,29 @@ class Program
         else
             result.Add(0);
         return result;
+    }
+    
+    public static long arrayManipulation(int n, List<List<int>> queries) //https://www.hackerrank.com/challenges/crush/problem?isFullScreen=true
+    {
+        int highestVal = 0;
+        List<int> tempArr = new List<int>();
+        List<int> queriesInd = new List<int>();
+        List<List<int>> operationArr = new List<List<int>>();
+        
+        for (int j = 0; j < n; j++)
+            tempArr.Add(0);
+        
+        for (int i = 0; i < queries.Count; i++)
+        {
+            queriesInd = queries[i];
+            for (int j = queriesInd[0]-1; j < queriesInd[1]; j++)
+            {   
+                tempArr[j] += queriesInd[2];
+                highestVal = tempArr[j] > highestVal ? tempArr[j] : highestVal;
+            }
+            operationArr.Add(new List<int>(tempArr));
+        }
+        
+        return highestVal;
     }
 }
