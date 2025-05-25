@@ -1,4 +1,6 @@
-﻿namespace ArraysHackerRank;
+﻿﻿using System.Net.Sockets;
+
+namespace ArraysHackerRank;
 
 class Program
 {
@@ -10,11 +12,21 @@ class Program
         Console.WriteLine(variable);*/
         
         
-        List<string> stringList = new List<string>(){"ab", "ab", "abc"};
+        /*List<string> stringList = new List<string>(){"ab", "ab", "abc"};
         List<string> queries = new List<string>(){"ab", "abc", "abcd", "abcde"};
         List<int> matchCount = matchingStrings(stringList, queries);
         foreach (int val in matchCount)
-            Console.WriteLine(val);
+            Console.WriteLine(val);*/
+        
+        List<List<int>> list = new List<List<int>>()
+        {
+            new List<int>(){1,2,10},
+            new List<int>(){2,4,80},
+            new List<int>(){5,6,100},
+            new List<int>(){3,5,10}
+        };
+        long result = arrayManipulation(6,list);
+        Console.WriteLine(result);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -70,5 +82,37 @@ class Program
         else
             result.Add(0);
         return result;
+    }
+    
+    public static long arrayManipulation(int n, List<List<int>> queries) //https://www.hackerrank.com/challenges/crush/problem?isFullScreen=true
+    {
+        //Utilizing from difference array technique
+        //The update part equals O(1) this way rather than O(n) since we only perform a certain amount of operations (2), increasing...
+        //... the element corresponding to the beginning of the range (arr[StartOfRange]) and subtracting the k from arr[EndOfRange + 1].
+        //In the other case, the operation amount is based on how many elements will be within the mentioned range. Therefore the complexity...
+        //... equals O(n) and pretty inefficient in cases the ranges given in the 2D list are considerably wide.
+        int[] arr = new int[n + 2]; 
+
+        foreach (var query in queries)
+        {
+            int a = query[0];
+            int b = query[1];
+            int k = query[2];
+
+            arr[a] += k;
+            arr[b + 1] -= k;
+        }
+
+        long max = 0;
+        long current = 0;
+
+        for (int i = 1; i <= n; i++)
+        {
+            current += arr[i];
+            if (current > max)
+                max = current;
+        }
+
+        return max;
     }
 }
