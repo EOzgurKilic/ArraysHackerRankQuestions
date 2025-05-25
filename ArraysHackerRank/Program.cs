@@ -86,21 +86,11 @@ class Program
     
     public static long arrayManipulation(int n, List<List<int>> queries) //https://www.hackerrank.com/challenges/crush/problem?isFullScreen=true
     {
-        /*int highestVal = 0;
-        List<int> operationArr = new List<int>();
-        for (int j = 0; j < n; j++)
-            operationArr.Add(0);
-        
-        foreach (var queriesInd in queries)
-        {
-            for (int j = queriesInd[0]-1; j < queriesInd[1]; j++)
-            {   
-                operationArr[j] += queriesInd[2];
-                highestVal = operationArr[j] > highestVal ? operationArr[j] : highestVal;
-            }
-        }
-        
-        return highestVal;*/
+        //Utilizing from difference array technique
+        //The update part equals O(1) this way rather than O(n) since we only perform a certain amount of operations (2), increasing...
+        //... the element corresponding to the beginning of the range (arr[StartOfRange]) and subtracting the k from arr[EndOfRange + 1].
+        //In the other case, the operation amount is based on how many elements will be within the mentioned range. Therefore the complexity...
+        //... equals O(n) and pretty inefficient in cases the ranges given in the 2D list are considerably wide.
         int[] arr = new int[n + 2]; 
 
         foreach (var query in queries)
