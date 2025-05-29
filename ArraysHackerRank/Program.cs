@@ -18,7 +18,7 @@ class Program
         foreach (int val in matchCount)
             Console.WriteLine(val);*/
         
-        List<List<int>> list = new List<List<int>>()
+        /*List<List<int>> list = new List<List<int>>()
         {
             new List<int>(){1,2,10},
             new List<int>(){2,4,80},
@@ -26,7 +26,11 @@ class Program
             new List<int>(){3,5,10}
         };
         long result = arrayManipulation(6,list);
-        Console.WriteLine(result);
+        Console.WriteLine(result);*/
+        
+        string str1 = "car";
+        string str2 = "rat";
+        Console.WriteLine(IsAnagram(str1, str2));
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -114,5 +118,35 @@ class Program
         }
 
         return max;
+    }
+    
+    public static int[] GetConcatenation(int[] nums) { //https://leetcode.com/problems/concatenation-of-array/
+        List<int> result = new List<int>(nums);
+        result.AddRange(nums);
+        return result.ToArray(); 
+    } 
+    
+    public static bool IsAnagram(string s, string t) { //https://leetcode.com/problems/valid-anagram/
+        if (s.Length != t.Length)
+            return false;
+        
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            foreach (var str in s)
+            {
+                if (!dict.ContainsKey(str))
+                    dict.Add(str, 1);
+                else
+                    dict[str]++;
+            }
+
+            foreach (var str in t)
+            {
+                if (!dict.ContainsKey(str))
+                    return false;
+                else if (--dict[str] < 0)
+                    return false;
+            }
+
+        return true;
     }
 }
