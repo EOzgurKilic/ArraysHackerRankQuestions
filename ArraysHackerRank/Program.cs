@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using System.Text;
 
 namespace ArraysHackerRank;
 
@@ -123,6 +124,32 @@ class Program
         result.AddRange(nums);
         return result.ToArray(); 
     } 
-    
+    public static string LongestCommonPrefix(string[] strs) //https://leetcode.com/problems/longest-common-prefix/
+    {
+        (int length, int index) shortestStr = (200, 0); 
+        int temp = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.Append("");
+        for (int i = 0 ; i < strs.Length; i++)
+        {
+            shortestStr = shortestStr.length > strs[i].Length ? (strs[i].Length, i) : shortestStr;
+        }
+
+        for (int i = 0; i < shortestStr.length; i++)
+        {
+            while  (temp < strs.Count())
+            {
+                if (strs[shortestStr.index][i]!=strs[temp][i])
+                {
+                    return sb.ToString();
+                }
+                temp++;
+            }
+            sb.Append(strs[shortestStr.index][i]);
+            temp = 0;
+        }
+
+        return sb.ToString();
+    }
     
 }
