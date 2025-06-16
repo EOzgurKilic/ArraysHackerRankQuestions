@@ -29,6 +29,18 @@ class Program
         };
         long result = arrayManipulation(6,list);
         Console.WriteLine(result);*/
+        
+        
+        //RemoveElement
+        /*int[] nums = { 3,2,2,3 };
+        Console.WriteLine(RemoveElement(nums,3));
+        foreach (int i in nums)
+            Console.Write(i + " ");*/
+        
+        
+        //MajorityElement
+        int[] nums = { 3,2,3 };
+        var no = MajorityElement(nums);
 }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -151,5 +163,34 @@ class Program
 
         return sb.ToString();
     }
+
+    public static int RemoveElement(int[] nums, int val)
+    {
+        int temp = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == val)
+            {
+                continue;
+            }
+            nums[temp] = nums[i];
+            temp++;
+        }
+        return temp; //temp only increases
+    }
     
+    public static int MajorityElement(int[] nums)//https://leetcode.com/problems/majority-element/
+    {
+        int potential = 0, counter = 0;
+        foreach (int i in nums)
+        {
+            if(counter == 0){
+                potential = i;
+                counter++;
+            }
+            else
+                counter += potential == i ? 1 : -1;
+        }
+        return potential;
+    } 
 }
