@@ -39,9 +39,12 @@ class Program
         
         
         //MajorityElement
-        int[] nums = { 3,2,3 };
-        var no = MajorityElement(nums);
-}
+        /*int[] nums = { 3,2,3 };
+        var no = MajorityElement(nums);*/
+
+        string str = "";
+        Console.WriteLine(str.Length);
+    }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
     {
@@ -132,36 +135,37 @@ class Program
     
     public static int[] GetConcatenation(int[] nums)//https://leetcode.com/problems/concatenation-of-array/
     { 
+        //return nums.Concat(nums).ToArray();
         List<int> result = new List<int>(nums);
         result.AddRange(nums);
-        return result.ToArray(); 
+        return result.ToArray();
     } 
     public static string LongestCommonPrefix(string[] strs) //https://leetcode.com/problems/longest-common-prefix/
     {
-        (int length, int index) shortestStr = (200, 0); 
-        int temp = 0;
-        StringBuilder sb = new StringBuilder();
-        sb.Append("");
-        for (int i = 0 ; i < strs.Length; i++)
-        {
-            shortestStr = shortestStr.length > strs[i].Length ? (strs[i].Length, i) : shortestStr;
-        }
-
-        for (int i = 0; i < shortestStr.length; i++)
-        {
-            while  (temp < strs.Count())
-            {
-                if (strs[shortestStr.index][i]!=strs[temp][i])
-                {
-                    return sb.ToString();
+        int _strIndex = 0, _arrIndex = 0;
+        (int index,int length) shortest = (0,200);
+        StringBuilder _sb = new();
+        if (strs.Length == 1) _sb.Append(strs[0]);
+        else {
+            _sb.Append("");
+            for(int i = 0; i < strs.Length; i++) {
+                if(shortest.length > strs[i].Length) {
+                    shortest.index = i;
+                    shortest.length = strs[i].Length;
                 }
-                temp++;
             }
-            sb.Append(strs[shortestStr.index][i]);
-            temp = 0;
-        }
-
-        return sb.ToString();
+            if(shortest.length != 0) {
+                while (_strIndex != strs[shortest.index].Length) {
+                    if (!(strs[shortest.index][_strIndex] == strs[_arrIndex][_strIndex])) break;
+                    if(++_arrIndex == strs.Length) {
+                        _sb.Append(strs[shortest.index][_strIndex]);
+                        _arrIndex = 0;
+                        _strIndex++;
+                    }
+                }
+            }
+        }    
+        return _sb.ToString();
     }
 
     public static int RemoveElement(int[] nums, int val)
