@@ -109,10 +109,9 @@ class Program
         for (int i = 1; i <= n; i++)
         {
             current += arr[i];
-            if (current > max)
-                max = current;
+            max = Math.Max(current, max);
         }
-
+        
         return max;
     }
 }
