@@ -1,4 +1,5 @@
-﻿﻿using System.Net.Sockets;
+﻿using System.Net.Sockets;
+using System.Text;
 
 namespace ArraysHackerRank;
 
@@ -10,15 +11,16 @@ class Program
         List<int> rotatedNumbers = rotateLeft(2, numbers);
         foreach (var variable in rotatedNumbers)
         Console.WriteLine(variable);*/
-        
-        
+
+
         /*List<string> stringList = new List<string>(){"ab", "ab", "abc"};
         List<string> queries = new List<string>(){"ab", "abc", "abcd", "abcde"};
         List<int> matchCount = matchingStrings(stringList, queries);
         foreach (int val in matchCount)
             Console.WriteLine(val);*/
-        
-        List<List<int>> list = new List<List<int>>()
+
+
+        /*List<List<int>> list = new List<List<int>>()
         {
             new List<int>(){1,2,10},
             new List<int>(){2,4,80},
@@ -26,7 +28,22 @@ class Program
             new List<int>(){3,5,10}
         };
         long result = arrayManipulation(6,list);
-        Console.WriteLine(result);
+        Console.WriteLine(result);*/
+        
+        
+        //RemoveElement
+        /*int[] nums = { 3,2,2,3 };
+        Console.WriteLine(RemoveElement(nums,3));
+        foreach (int i in nums)
+            Console.Write(i + " ");*/
+        
+        
+        //MajorityElement
+        /*int[] nums = { 3,2,3 };
+        var no = MajorityElement(nums);*/
+
+        string str = "";
+        Console.WriteLine(str.Length);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -109,9 +126,75 @@ class Program
         for (int i = 1; i <= n; i++)
         {
             current += arr[i];
-            max = Math.Max(current, max);
+            if (current > max)
+                max = current;
         }
-        
+
         return max;
     }
+    
+    public static int[] GetConcatenation(int[] nums)//https://leetcode.com/problems/concatenation-of-array/
+    { 
+        //return nums.Concat(nums).ToArray();
+        List<int> result = new List<int>(nums);
+        result.AddRange(nums);
+        return result.ToArray();
+    } 
+    public static string LongestCommonPrefix(string[] strs) //https://leetcode.com/problems/longest-common-prefix/
+    {
+        int _strIndex = 0, _arrIndex = 0;
+        (int index,int length) shortest = (0,200);
+        StringBuilder _sb = new();
+        if (strs.Length == 1) _sb.Append(strs[0]);
+        else {
+            _sb.Append("");
+            for(int i = 0; i < strs.Length; i++) {
+                if(shortest.length > strs[i].Length) {
+                    shortest.index = i;
+                    shortest.length = strs[i].Length;
+                }
+            }
+            if(shortest.length != 0) {
+                while (_strIndex != strs[shortest.index].Length) {
+                    if (!(strs[shortest.index][_strIndex] == strs[_arrIndex][_strIndex])) break;
+                    if(++_arrIndex == strs.Length) {
+                        _sb.Append(strs[shortest.index][_strIndex]);
+                        _arrIndex = 0;
+                        _strIndex++;
+                    }
+                }
+            }
+        }    
+        return _sb.ToString();
+    }
+
+    public static int RemoveElement(int[] nums, int val)
+    {
+        int temp = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] == val)
+            {
+                continue;
+            }
+            nums[temp] = nums[i];
+            temp++;
+        }
+        return temp; //temp only increases
+    }
+    
+    public static int MajorityElement(int[] nums)//https://leetcode.com/problems/majority-element/
+    {
+        int potential = 0, counter = 0;
+        foreach (int i in nums)
+        {
+            if(counter == 0){
+                potential = i;
+                counter++;
+            }
+            else
+                counter += potential == i ? 1 : -1;
+        }
+        return potential;
+    } 
 }
