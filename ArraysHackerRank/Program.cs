@@ -41,9 +41,63 @@ class Program
         //MajorityElement
         /*int[] nums = { 3,2,3 };
         var no = MajorityElement(nums);*/
+        
+        
+        //Longest Common Prefix
+        /*string[] strArr = new []{"flower","flow","flight"};
+        string longestPrefix = LongestCommonPrefix(strArr);*/
+        
+        
+        
+        /*
+    Exercise: Method Revision
 
-        string str = "";
-        Console.WriteLine(str.Length);
+    You're managing a virtual fruit basket using a List<string>.
+    Write a C# console app that performs the following steps in order:
+
+    1. Create an empty list of strings called fruitBasket.
+    2. Add the following fruits: "apple", "banana", "cherry".
+    3. Add "orange" at the beginning of the list.
+    4. Add "kiwi" and "grape" to the end of the list in one step.
+    5. Ask the user to input a fruit name.
+    If the fruit is in the basket, remove it and show a message like "Removed [fruit]".
+    If not, say "Fruit not found".
+    6. Insert "lemon" at the second position (index 1).
+    7. Print the total number of fruits in the basket.
+    8. Sort the list alphabetically.
+    9. Reverse the list.
+    10. Print the final list, one fruit per line.
+
+    Bonus Challenge:
+    - Ask the user to enter a number, and remove that many fruits starting from the 2nd index.
+    - Convert the final list into an array and print it.
+    */
+        /*List<string> basket= new();
+        basket.Add("apple");
+        basket.Add("banana");
+        basket.Add("cherry");
+        basket.Insert(0,"orange");
+        basket.AddRange(new string[] { "kiwi", "grape" });
+        Console.Write("Type the fruit name that you want to be removed from the basket:");
+        if(basket.Remove(Console.ReadLine().ToString().ToLower()))
+           Console.WriteLine("Removed from the basket");
+        else
+            Console.WriteLine("Fruit not found!");
+        basket.Insert(1,"Lemon");
+        Console.WriteLine($"Total number of fruits: {basket.Count}");
+        basket.Sort();
+        basket.Reverse();
+        foreach(var item in basket)
+            Console.WriteLine(item);
+        //Bonus
+        if (int.TryParse(Console.ReadLine(), out int countToRemove) && basket.Count >= 2 + countToRemove)
+            basket.RemoveRange(2, countToRemove);
+        else
+            Console.WriteLine("Invalid number or not enough items to remove.");
+        string[] fruitArray = basket.ToArray();
+        Console.WriteLine("Final fruits array:");
+        foreach (var fruit in fruitArray) 
+            Console.WriteLine(fruit);*/
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -171,14 +225,10 @@ class Program
     public static int RemoveElement(int[] nums, int val)
     {
         int temp = 0;
-        for (int i = 0; i < nums.Length; i++)
-        {
-            if (nums[i] == val)
-            {
+        for(int i = 0; i < nums.Length; i++){
+            if(nums[i] == val)
                 continue;
-            }
-            nums[temp] = nums[i];
-            temp++;
+            nums[temp++] = nums[i];
         }
         return temp; //temp only increases
     }
