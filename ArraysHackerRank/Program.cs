@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ArraysHackerRank;
 
@@ -98,6 +99,11 @@ class Program
         Console.WriteLine("Final fruits array:");
         foreach (var fruit in fruitArray) 
             Console.WriteLine(fruit);*/
+        
+        
+        //IsPalindrome
+        string str = "A man, a plan, a canal: Panama";
+        Console.WriteLine(IsPalindrome(str));
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -246,5 +252,62 @@ class Program
                 counter += potential == i ? 1 : -1;
         }
         return potential;
-    } 
+    }
+    
+    
+        public static bool IsPalindrome(string s) //https://leetcode.com/problems/valid-palindrome
+        {
+            var left = 0;
+            var right = s.Length - 1;
+            while (left <= right)
+            {
+                if (!IsAlphaNumeric(s[left]))
+                {
+                    left++;
+                    continue;
+                }
+
+                if (!IsAlphaNumeric(s[right]))
+                {
+                    right--;
+                    continue;
+                }
+            
+                if(char.ToLowerInvariant(s[left]) != char.ToLowerInvariant(s[right])) 
+                    return false;
+            
+                left++; right--;
+            }
+
+            return true;
+
+            bool IsAlphaNumeric(char c)
+            {
+                return c is >= '0' and <= '9' or >= 'A' and <= 'Z' or >= 'a' and <= 'z';
+            }
+        }
+        public static bool ValidPalindrome(string s) { //https://leetcode.com/problems/valid-palindrome-ii
+            int l = 0, r = s.Length - 1;
+        
+            while (l < r) {
+                if (s[l] != s[r]) {
+                    return IsPalindrome(s, l + 1, r) || IsPalindrome(s, l, r - 1);
+                }
+                l++;
+                r--;
+            }
+            return true;
+
+            bool IsPalindrome(string s, int l, int r)
+            {
+                while (l < r)
+                {
+                    if (s[l] != s[r]) return false;
+                    l++;
+                    r--;
+                }
+
+                return true;
+            }
+        }
 }
