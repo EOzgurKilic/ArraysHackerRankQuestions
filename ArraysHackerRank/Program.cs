@@ -193,6 +193,8 @@ class Program
         return max;
     }
     
+    
+    #region Arrays&Hashing - NeetCode
     public static int[] GetConcatenation(int[] nums)//https://leetcode.com/problems/concatenation-of-array/
     { 
         //return nums.Concat(nums).ToArray();
@@ -253,61 +255,82 @@ class Program
         }
         return potential;
     }
+    #endregion
     
-    
-        public static bool IsPalindrome(string s) //https://leetcode.com/problems/valid-palindrome
+    #region Two Pointers - NeetCode
+    public static bool IsPalindrome(string s) //https://leetcode.com/problems/valid-palindrome
+    {
+        var left = 0;
+        var right = s.Length - 1;
+        while (left <= right)
         {
-            var left = 0;
-            var right = s.Length - 1;
-            while (left <= right)
+            if (!IsAlphaNumeric(s[left]))
             {
-                if (!IsAlphaNumeric(s[left]))
-                {
-                    left++;
-                    continue;
-                }
-
-                if (!IsAlphaNumeric(s[right]))
-                {
-                    right--;
-                    continue;
-                }
-            
-                if(char.ToLowerInvariant(s[left]) != char.ToLowerInvariant(s[right])) 
-                    return false;
-            
-                left++; right--;
+                left++;
+                continue;
             }
 
-            return true;
-
-            bool IsAlphaNumeric(char c)
+            if (!IsAlphaNumeric(s[right]))
             {
-                return c is >= '0' and <= '9' or >= 'A' and <= 'Z' or >= 'a' and <= 'z';
+                right--;
+                continue;
             }
+            
+            if(char.ToLowerInvariant(s[left]) != char.ToLowerInvariant(s[right])) 
+                return false;
+            
+            left++; right--;
         }
-        public static bool ValidPalindrome(string s) { //https://leetcode.com/problems/valid-palindrome-ii
-            int l = 0, r = s.Length - 1;
+
+        return true;
+
+        bool IsAlphaNumeric(char c)
+        {
+            return c is >= '0' and <= '9' or >= 'A' and <= 'Z' or >= 'a' and <= 'z';
+        }
+    }
+    public static bool ValidPalindrome(string s) { //https://leetcode.com/problems/valid-palindrome-ii
+        int l = 0, r = s.Length - 1;
         
-            while (l < r) {
-                if (s[l] != s[r]) {
-                    return IsPalindrome(s, l + 1, r) || IsPalindrome(s, l, r - 1);
-                }
+        while (l < r) {
+            if (s[l] != s[r]) {
+                return IsPalindrome(s, l + 1, r) || IsPalindrome(s, l, r - 1);
+            }
+            l++;
+            r--;
+        }
+        return true;
+
+        bool IsPalindrome(string s, int l, int r)
+        {
+            while (l < r)
+            {
+                if (s[l] != s[r]) return false;
                 l++;
                 r--;
             }
+
             return true;
-
-            bool IsPalindrome(string s, int l, int r)
-            {
-                while (l < r)
-                {
-                    if (s[l] != s[r]) return false;
-                    l++;
-                    r--;
-                }
-
-                return true;
-            }
         }
+    }
+    public string MergeAlternately(string word1, string word2) { //https://leetcode.com/problems/merge-strings-alternately
+        StringBuilder result = new();
+        int ptr1 = 0, ptr2 = 0;
+
+        while (ptr1 < word1.Length && ptr2 < word2.Length) {
+            result.Append(word1[ptr1++]);
+            result.Append(word2[ptr2++]);
+        }
+        
+        while(ptr1 < word1.Length) {
+            result.Append(word1[ptr1++]);
+        }
+        
+        while(ptr2 < word2.Length) {
+            result.Append(word2[ptr2++]);
+        }
+
+        return result.ToString();
+    }
+    #endregion
 }
