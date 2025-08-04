@@ -102,8 +102,18 @@ class Program
         
         
         //IsPalindrome
-        string str = "A man, a plan, a canal: Panama";
-        Console.WriteLine(IsPalindrome(str));
+        /*string str = "A man, a plan, a canal: Panama";
+        Console.WriteLine(IsPalindrome(str));*/
+        
+        
+        //Merge
+        int[] arr1 = {1,2,3,0,0,0};
+        int[] arr2 = {2,5,6};
+        Merge(arr1,3,arr2,3);
+        
+        
+        HashSet<int> rec = new HashSet<int>();
+        rec.Add(1);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -243,6 +253,18 @@ class Program
     
     public static int MajorityElement(int[] nums)//https://leetcode.com/problems/majority-element/
     {
+        /*
+         The Boyer-Moore Voting Algorithm is used in this question;
+         It’s a linear-time, constant-space algorithm for finding a majority element in a sequence — an element that appears more than half the time.\
+         It doesn't count elements in full; instead, it uses a cancellation logic to narrow down to the likely winner.
+         Think of it as an election simulator:
+            -Every element "votes" for itself.
+            -Opposing votes cancel each other out.
+            -If one value has an actual majority, it survives the storm.
+        It’s useful in any scenario where:
+            -You expect a majority-like property
+            -You need single-pass, low-memory processing
+         */
         int potential = 0, counter = 0;
         foreach (int i in nums)
         {
@@ -313,7 +335,7 @@ class Program
             return true;
         }
     }
-    public string MergeAlternately(string word1, string word2) { //https://leetcode.com/problems/merge-strings-alternately
+    public static string MergeAlternately(string word1, string word2) { //https://leetcode.com/problems/merge-strings-alternately
         StringBuilder result = new();
         int ptr1 = 0, ptr2 = 0;
 
@@ -332,5 +354,39 @@ class Program
 
         return result.ToString();
     }
+    
+    
+    public static void Merge(int[] nums1, int m, int[] nums2, int n) { //https://leetcode.com/problems/merge-sorted-array
+       
+        int pt1 =  m - 1, pt2 = n - 1;
+        int lastMax = nums1.Length-1;
+        while (pt2 >= 0)
+        {
+            if (pt1 >= 0 && nums1[pt1] > nums2[pt2])
+                nums1[lastMax--] = nums1[pt1--];
+            else
+                nums1[lastMax--] = nums2[pt2--];
+            
+            int[] arr1 = nums1;
+        }
+    }
+    
+    public int RemoveDuplicates(int[] nums) { //https://leetcode.com/problems/remove-duplicates-from-sorted-array
+        int pt1 = 0, pt2 = 1;
+        if(nums.Length <= 1)
+            return nums.Length;
+
+        while (pt2 < nums.Length){
+            if(nums[pt1] != nums[pt2]){
+                nums[++pt1] = nums[pt2++];
+            }
+            else{
+                pt2++;
+            }
+        }
+        return ++pt1;
+    }
+    
+    
     #endregion
 }
