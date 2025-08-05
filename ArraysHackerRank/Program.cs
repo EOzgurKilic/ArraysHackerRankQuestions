@@ -387,6 +387,29 @@ class Program
         return ++pt1;
     }
     
+    #endregion
+
+    #region Sliding Window - NeetCode
+    public bool ContainsNearbyDuplicate(int[] nums, int k) //https://leetcode.com/problems/contains-duplicate-ii
+    {
+        HashSet<int> window = new();
+        int high = 0;
+        while (!(high >= nums.Length || high > k)){
+            if(!window.Add(nums[high]))
+                return true;
+            high++;
+        }
+        
+        for(int low = 0; high < nums.Length; low++){
+            window.Remove(nums[low]);
+            if(!window.Add(nums[high]))
+                return true;
+            high++;
+        }
+
+        return false;
+    }
     
+
     #endregion
 }
