@@ -280,6 +280,19 @@ class Program
     #endregion
     
     #region Two Pointers - NeetCode
+    public static void ReverseString(char[] s) { //https://leetcode.com/problems/reverse-string
+        int low = 0, high = s.Length-1;
+        char temp = ' ';
+        while (low <= high){
+            temp = s[low];
+            s[low] = s[high];
+            s[high] = temp;
+            low++;
+            high--;
+        }
+    }
+    
+    
     public static bool IsPalindrome(string s) //https://leetcode.com/problems/valid-palindrome
     {
         var left = 0;
