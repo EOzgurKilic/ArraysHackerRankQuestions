@@ -379,23 +379,17 @@ class Program
                 nums1[lastMax--] = nums1[pt1--];
             else
                 nums1[lastMax--] = nums2[pt2--];
-            
-            int[] arr1 = nums1;
         }
     }
     
     public int RemoveDuplicates(int[] nums) { //https://leetcode.com/problems/remove-duplicates-from-sorted-array
         int pt1 = 0, pt2 = 1;
-        if(nums.Length <= 1)
-            return nums.Length;
-
-        while (pt2 < nums.Length){
-            if(nums[pt1] != nums[pt2]){
+        while (pt2 < nums.Length)
+        {
+            if (nums[pt1] != nums[pt2])
                 nums[++pt1] = nums[pt2++];
-            }
-            else{
+            else
                 pt2++;
-            }
         }
         return ++pt1;
     }
@@ -406,23 +400,30 @@ class Program
     public bool ContainsNearbyDuplicate(int[] nums, int k) //https://leetcode.com/problems/contains-duplicate-ii
     {
         HashSet<int> window = new();
-        int high = 0;
-        while (!(high >= nums.Length || high > k)){
-            if(!window.Add(nums[high]))
+        int ptr1 = 0, ptr2 = 0;
+        while(ptr2 < nums.Length){
+            if(ptr2 > ptr1 + k)
+                window.Remove(nums[ptr1++]);
+            if (!window.Add(nums[ptr2++]))
                 return true;
-            high++;
         }
-        
-        for(int low = 0; high < nums.Length; low++){
-            window.Remove(nums[low]);
-            if(!window.Add(nums[high]))
-                return true;
-            high++;
-        }
-
         return false;
     }
     
+    
+    public static int MaxProfit(int[] prices) { //https://leetcode.com/problems/best-time-to-buy-and-sell-stock
+        int left = 0, right = 1, maxProfit = 0;
 
+        while (right < prices.Length)
+        {
+            if (prices[right] > prices[left])
+                maxProfit = Math.Max(maxProfit, prices[right] - prices[left]);
+            else
+                left = right;
+
+            right++;
+        }
+        return maxProfit;
+    }
     #endregion
 }
