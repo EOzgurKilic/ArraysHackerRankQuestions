@@ -110,10 +110,11 @@ class Program
         int[] arr1 = {1,2,3,0,0,0};
         int[] arr2 = {2,5,6};
         Merge(arr1,3,arr2,3);
-        
-        
-        HashSet<int> rec = new HashSet<int>();
-        rec.Add(1);
+
+
+        Queue<int> q = new Queue<int>();
+        q.Clear();
+
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -424,6 +425,113 @@ class Program
             right++;
         }
         return maxProfit;
+    }
+    #endregion
+    
+    #region Stack
+    public static int CalPoints(string[] ops) //https://leetcode.com/problems/baseball-game
+    {
+        Stack<int> _rec = new();
+        int _temp = 0, _sum = 0;
+
+        foreach (var i in ops)
+        {
+            if(i == "C"){
+                _sum -= _rec.Pop();
+            }
+            else if(i == "D"){
+                _rec.Push(_rec.Peek()*2);
+                _sum += _rec.Peek();
+            }
+            else if (i == "+"){
+                _temp += _rec.Pop();
+                _temp += _rec.Peek();
+                _rec.Push(_temp - _rec.Peek());
+                _rec.Push(_temp);
+                _sum += _temp;
+                _temp = 0;
+            }
+            else {
+                _rec.Push(int.Parse(i));
+                _sum += _rec.Peek();
+            }
+        }
+        return _sum;
+    }
+    public static bool IsValid(string s) //https://leetcode.com/problems/valid-parentheses
+    {
+        if (s.Length == 1) return false; 
+
+        var st = new Stack<char>();
+        foreach (char c in s)
+        {
+            switch (c)
+            {
+                case '(': st.Push(')'); break;
+                case '[': st.Push(']'); break;
+                case '{': st.Push('}'); break;
+                default:
+                    if (st.Count == 0 || st.Pop() != c) return false;
+                    break;
+            }
+        }
+        return st.Count == 0;
+    }
+    
+    public class MyStack { //https://leetcode.com/problems/implement-stack-using-queues  
+        Queue<int> que;
+        public MyStack() {
+            que = new();
+        }
+    
+        public void Push(int x) {
+            que.Enqueue(x);
+            for (int i = 0; i < que.Count - 1; i++){
+                que.Enqueue(que.Dequeue());
+            }
+        }
+    
+        public int Pop() {
+            return que.Dequeue();
+        }
+    
+        public int Top() {
+            return que.Peek();
+        }
+    
+        public bool Empty() {
+            return que.Count == 0 ? true : false;
+        }
+    }
+    
+    
+    public class MyQueue //https://leetcode.com/problems/implement-queue-using-stacks
+    {
+        private readonly Stack<int> inSt = new();
+        private readonly Stack<int> outSt = new();
+
+        public void Push(int x) => inSt.Push(x);
+
+        public int Pop()
+        {
+            MoveIfNeeded();
+            return outSt.Pop();
+        }
+
+        public int Peek()
+        {
+            MoveIfNeeded();
+            return outSt.Peek();
+        }
+
+        public bool Empty() => inSt.Count == 0 && outSt.Count == 0;
+
+        private void MoveIfNeeded()
+        {
+            if (outSt.Count == 0)
+                while (inSt.Count > 0)
+                    outSt.Push(inSt.Pop());
+        }
     }
     #endregion
 }
