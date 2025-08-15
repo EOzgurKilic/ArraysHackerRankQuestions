@@ -107,13 +107,11 @@ class Program
         
         
         //Merge
-        int[] arr1 = {1,2,3,0,0,0};
+        /*int[] arr1 = {1,2,3,0,0,0};
         int[] arr2 = {2,5,6};
-        Merge(arr1,3,arr2,3);
+        Merge(arr1,3,arr2,3);*/
 
-
-        Queue<int> q = new Queue<int>();
-        q.Clear();
+        
 
     }
 
@@ -534,4 +532,65 @@ class Program
         }
     }
     #endregion
+    
+    #region Binary Search - NeetCode
+    public static int SearchInsert(int[] arr, int val) { //https://leetcode.com/problems/search-insert-position
+        int low = 0, high = arr.Length - 1;
+        int mid = (low+high)/2;
+        
+        while (low < high)
+        {
+            if (arr[mid] == val)
+                return mid;
+            
+            else if (arr[mid] < val)
+                low = mid + 1;
+            else
+                high = mid - 1;
+                
+            mid = (low + high) / 2;
+        }
+        if (arr[mid] >= val)
+            return mid;
+        else
+            return mid+1;
+    }
+    
+    
+    /*public class Solution : GuessGame { //GuessGame was an internal class in the question https://leetcode.com/problems/guess-number-higher-or-lower
+        public int GuessNumber(int n) {
+            int low = 1, high = n;
+            int mid = low+(high-low)/2;
+            while (low <= high)
+            {
+                int result = guess(mid);
+                if(result == 0)
+                    return mid;
+                else if (result == -1)
+                    high = mid - 1;
+                else
+                    low = mid + 1;
+                mid = low+(high-low)/2;
+            }
+            return -1;
+        }
+    }*/
+    
+    
+    public static int MySqrt(int x) { //https://leetcode.com/problems/sqrtx
+        int low = 1, high = x;
+        int mid = (high-low)/2+low;
+        while (low <=high){
+            if((long)mid*mid < x)
+                low = mid + 1;
+            else if ((long)mid*mid > x)
+                high = mid-1;
+            else
+                return mid;
+            mid = (high-low)/2+low;
+        }
+        return (long)mid*mid > x ? mid-1: mid;
+    }
+    #endregion
+    
 }
