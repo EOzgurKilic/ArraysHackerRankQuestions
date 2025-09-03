@@ -204,6 +204,14 @@ class Program
     
     
     #region Arrays&Hashing - NeetCode
+    public bool ContainsDuplicate(int[] nums) { //https://leetcode.com/problems/contains-duplicate
+        HashSet<int> duplicate = new();
+        foreach(var i in nums)
+            if(!duplicate.Add(i))
+                return true;
+        return false;
+        //With HashSet, Time Comp: O(n) & Space Comp: O(n)
+    }
     public static int[] GetConcatenation(int[] nums)//https://leetcode.com/problems/concatenation-of-array/
     { 
         //return nums.Concat(nums).ToArray();
@@ -213,30 +221,14 @@ class Program
     } 
     public static string LongestCommonPrefix(string[] strs) //https://leetcode.com/problems/longest-common-prefix/
     {
-        int _strIndex = 0, _arrIndex = 0;
-        (int index,int length) shortest = (0,200);
-        StringBuilder _sb = new();
-        if (strs.Length == 1) _sb.Append(strs[0]);
-        else {
-            _sb.Append("");
-            for(int i = 0; i < strs.Length; i++) {
-                if(shortest.length > strs[i].Length) {
-                    shortest.index = i;
-                    shortest.length = strs[i].Length;
+        for (int i = 0; i < strs[0].Length; i++) {
+            foreach (string s in strs) {
+                if (i == s.Length || s[i] != strs[0][i]) {
+                    return s.Substring(0, i);
                 }
             }
-            if(shortest.length != 0) {
-                while (_strIndex != strs[shortest.index].Length) {
-                    if (!(strs[shortest.index][_strIndex] == strs[_arrIndex][_strIndex])) break;
-                    if(++_arrIndex == strs.Length) {
-                        _sb.Append(strs[shortest.index][_strIndex]);
-                        _arrIndex = 0;
-                        _strIndex++;
-                    }
-                }
-            }
-        }    
-        return _sb.ToString();
+        }
+        return strs[0];
     }
 
     public static int RemoveElement(int[] nums, int val)
@@ -248,6 +240,15 @@ class Program
             nums[temp++] = nums[i];
         }
         return temp; //temp only increases
+        
+        //Two Pointers
+        /*int pt1 = 0, pt2 = 0;
+        while(pt1 < nums.Length){
+            if(nums[pt1] != val)
+                nums[pt2++] = nums[pt1];
+            pt1++;
+        }
+        return pt2; */
     }
     
     public static int MajorityElement(int[] nums)//https://leetcode.com/problems/majority-element/
@@ -275,6 +276,35 @@ class Program
                 counter += potential == i ? 1 : -1;
         }
         return potential;
+    }
+    
+    
+    public bool IsAnagram(string s, string t) {https://leetcode.com/problems/valid-anagram
+        if (s.Length != t.Length)
+            return false;
+        Dictionary<char,int> rec = new();
+        foreach (var i in s){
+            if(!rec.ContainsKey(i))
+                rec.Add(i,0);
+            rec[i]++;
+        }
+        foreach (var i in t){
+            if(!(rec.ContainsKey(i) && --rec[i] >= 0))
+                return false;
+        }
+        return true;
+    }
+    
+    
+    public int[] TwoSum(int[] nums, int target) { //https://leetcode.com/problems/two-sum
+        Dictionary<int,int> _rec = new();
+        for(int i = 0; i < nums.Length; i++){
+            if(_rec.TryGetValue(target - nums[i], out int index))
+                return new int[2]{index, i};
+            if(!_rec.ContainsKey(nums[i]))
+                _rec.Add(nums[i], i);
+        }
+        return Array.Empty<int>();
     }
     #endregion
     
@@ -593,7 +623,7 @@ class Program
     }
     #endregion
     
-    #region LinkedLists
+    #region LinkedLists - NeetCode
     /*public ListNode ReverseList(ListNode head) { //https://leetcode.com/problems/reverse-linked-list
         ListNode next = null, prev = null;
         while (head != null){
