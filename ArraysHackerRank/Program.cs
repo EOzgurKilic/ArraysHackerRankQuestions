@@ -8,12 +8,23 @@ class Program
 {
     static void Main(string[] args)
     {
+        char[] charArr = new char[]{'d','r','e'};
+        Array.Sort(charArr);
+        foreach (char item in charArr)
+            Console.WriteLine(item);
+        Dictionary<int,char> dic = new Dictionary<int,char>();
+        dic[0] = 'i';
+        dic[1] = 'e';
+        foreach (var VARIABLE in dic.Values)
+        {
+            Console.WriteLine(VARIABLE);
+        }
+
+        Console.WriteLine(dic.Values.GetType().Name);
         /*List<int> numbers = new List<int>(){1,2,3,4,5};
         List<int> rotatedNumbers = rotateLeft(2, numbers);
         foreach (var variable in rotatedNumbers)
         Console.WriteLine(variable);*/
-
-
         /*List<string> stringList = new List<string>(){"ab", "ab", "abc"};
         List<string> queries = new List<string>(){"ab", "abc", "abcd", "abcde"};
         List<int> matchCount = matchingStrings(stringList, queries);
@@ -30,26 +41,26 @@ class Program
         };
         long result = arrayManipulation(6,list);
         Console.WriteLine(result);*/
-        
-        
+
+
         //RemoveElement
         /*int[] nums = { 3,2,2,3 };
         Console.WriteLine(RemoveElement(nums,3));
         foreach (int i in nums)
             Console.Write(i + " ");*/
-        
-        
+
+
         //MajorityElement
         /*int[] nums = { 3,2,3 };
         var no = MajorityElement(nums);*/
-        
-        
+
+
         //Longest Common Prefix
         /*string[] strArr = new []{"flower","flow","flight"};
         string longestPrefix = LongestCommonPrefix(strArr);*/
-        
-        
-        
+
+
+
         /*
     Exercise: Method Revision
 
@@ -97,21 +108,20 @@ class Program
             Console.WriteLine("Invalid number or not enough items to remove.");
         string[] fruitArray = basket.ToArray();
         Console.WriteLine("Final fruits array:");
-        foreach (var fruit in fruitArray) 
+        foreach (var fruit in fruitArray)
             Console.WriteLine(fruit);*/
-        
-        
+
+
         //IsPalindrome
         /*string str = "A man, a plan, a canal: Panama";
         Console.WriteLine(IsPalindrome(str));*/
-        
-        
+
+
         //Merge
         /*int[] arr1 = {1,2,3,0,0,0};
         int[] arr2 = {2,5,6};
         Merge(arr1,3,arr2,3);*/
 
-        
 
     }
 
@@ -306,6 +316,79 @@ class Program
         }
         return Array.Empty<int>();
     }
+    
+    
+    //------ Medium Questions ------
+    public IList<IList<string>> GroupAnagrams(string[] strs) { //https://leetcode.com/problems/group-anagrams
+        var res = new Dictionary<string, List<string>>();
+        foreach (var s in strs) {
+            char[] charArray = s.ToCharArray();
+            Array.Sort(charArray);
+            string sortedS = new string(charArray);
+            if (!res.ContainsKey(sortedS)) {
+                res[sortedS] = new List<string>();
+            }
+            res[sortedS].Add(s);
+        }
+        return res.Values.ToList<IList<string>>();
+    }
+    
+    public void SortColors(int[] nums) { https://leetcode.com/problems/sort-colors/description
+        int i = 0, l = 0, r = nums.Length - 1;
+
+        while (i <= r) {
+            if (nums[i] == 0) {
+                Swap(nums, l, i);
+                l++;
+            } else if (nums[i] == 2) {
+                Swap(nums, i, r);
+                r--;
+                i--;
+            }
+            i++;
+        }
+        void Swap(int[] nums, int i, int j) {
+            (nums[i], nums[j]) = (nums[j], nums[i]);
+        }
+    }
+    public int[] SortArray(int[] nums) { //https://leetcode.com/problems/sort-an-array
+        MergeSort(nums, 0, nums.Length - 1);
+        return nums;
+        
+        void MergeSort(int[] arr, int l, int r) {
+            if (l == r) return;
+
+            int m = (l + r) / 2;
+            MergeSort(arr, l, m);
+            MergeSort(arr, m + 1, r);
+            Merge(arr, l, m, r);
+        }
+        
+        void Merge(int[] arr, int L, int M, int R) {
+            int[] left = arr[L..(M + 1)];
+            int[] right = arr[(M + 1)..(R + 1)];
+
+            int i = L, j = 0, k = 0;
+
+            while (j < left.Length && k < right.Length) {
+                if (left[j] <= right[k]) {
+                    arr[i++] = left[j++];
+                } else {
+                    arr[i++] = right[k++];
+                }
+            }
+
+            while (j < left.Length) {
+                arr[i++] = left[j++];
+            }
+
+            while (k < right.Length) {
+                arr[i++] = right[k++];
+            }
+        }
+    }
+    
+    
     #endregion
     
     #region Two Pointers - NeetCode
@@ -355,7 +438,6 @@ class Program
     }
     public static bool ValidPalindrome(string s) { //https://leetcode.com/problems/valid-palindrome-ii
         int l = 0, r = s.Length - 1;
-        
         while (l < r) {
             if (s[l] != s[r]) {
                 return IsPalindrome(s, l + 1, r) || IsPalindrome(s, l, r - 1);
@@ -364,16 +446,11 @@ class Program
             r--;
         }
         return true;
-
         bool IsPalindrome(string s, int l, int r)
         {
-            while (l < r)
-            {
-                if (s[l] != s[r]) return false;
-                l++;
-                r--;
-            }
-
+            while(l < r)
+                if(s[l++] != s[r--])
+                    return false;
             return true;
         }
     }
@@ -412,6 +489,8 @@ class Program
     }
     
     public int RemoveDuplicates(int[] nums) { //https://leetcode.com/problems/remove-duplicates-from-sorted-array
+        //Two solutions below are much more efficient with dictionaries although the value parts are not used for particular reason. I have seen over 95% beating rates
+        //whereas the solution with hashsets barely reaches 50%
         int pt1 = 0, pt2 = 1;
         while (pt2 < nums.Length)
         {
@@ -421,6 +500,20 @@ class Program
                 pt2++;
         }
         return ++pt1;
+        //Faster Stats Longer Solution; Approximately 10 ms diff in time complexity
+        /*
+        HashSet<int> window = new(); //Dictionary<int, int> window = new();
+        int initialSize = nums.Length >= k + 1 ? k + 1 : nums.Length;
+        int l = 0, r = initialSize;
+        for (int i = 0; i < initialSize; i++){
+            if (!window.Add(nums[i])) return true; //(!window.TryAdd(nums[i], 0) return true;
+        }
+        while (r < nums.Length){
+            window.Remove(nums[l++]);
+            if (!window.Add(nums[r++])) return true; //if (!window.TryAdd(nums[r++], 0)) return true;
+        }
+        return false;
+         */
     }
     
     #endregion
@@ -485,25 +578,48 @@ class Program
             }
         }
         return _sum;
+        //Alternative
+        /*int temp = 0, sum = 0;
+        Stack<int> records = new();
+        for(int i = 0; i < operations.Length; i++){
+            switch (operations[i]){
+                case "+" : 
+                temp += records.Pop();
+                temp += records.Peek();
+                records.Push(temp - records.Peek());
+                records.Push(temp);
+                temp = 0; 
+                sum += records.Peek();
+                break;
+                case "D" : 
+                records.Push(records.Peek()*2);
+                sum += records.Peek();
+                break;
+                case "C":
+                sum -= records.Pop();
+                break;
+                default:  
+                records.Push(int.Parse(operations[i]));
+                sum += records.Peek();
+                break;
+            }
+        }
+        return sum;*/
     }
     public static bool IsValid(string s) //https://leetcode.com/problems/valid-parentheses
     {
-        if (s.Length == 1) return false; 
-
-        var st = new Stack<char>();
-        foreach (char c in s)
-        {
-            switch (c)
-            {
-                case '(': st.Push(')'); break;
-                case '[': st.Push(']'); break;
-                case '{': st.Push('}'); break;
-                default:
-                    if (st.Count == 0 || st.Pop() != c) return false;
+        Stack<char> track = new();
+        foreach (var i in s){
+            switch (i){
+                case '{': track.Push('}'); break;
+                case '[': track.Push(']'); break;
+                case '(': track.Push(')'); break;
+                default: 
+                    if(track.Count == 0 || track.Pop() != i) return false;
                     break;
             }
         }
-        return st.Count == 0;
+        return track.Count == 0;
     }
     
     public class MyStack { //https://leetcode.com/problems/implement-stack-using-queues  
@@ -528,7 +644,7 @@ class Program
         }
     
         public bool Empty() {
-            return que.Count == 0 ? true : false;
+            return que.Count == 0;
         }
     }
     
@@ -565,25 +681,15 @@ class Program
     
     #region Binary Search - NeetCode
     public static int SearchInsert(int[] arr, int val) { //https://leetcode.com/problems/search-insert-position
-        int low = 0, high = arr.Length - 1;
-        int mid = (low+high)/2;
-        
-        while (low < high)
-        {
-            if (arr[mid] == val)
-                return mid;
-            
-            else if (arr[mid] < val)
-                low = mid + 1;
-            else
-                high = mid - 1;
-                
-            mid = (low + high) / 2;
+        int l = 0, h = arr.Length -1;
+        int avg = (h+l)/2;
+        while(l<=h){
+            if(arr[avg] == val) return avg;
+            else if(arr[avg] < val) l = avg + 1;
+            else h = avg - 1;
+            avg = (l+h)/2; 
         }
-        if (arr[mid] >= val)
-            return mid;
-        else
-            return mid+1;
+        return arr[avg] > val ? avg: avg + 1;
     }
     
     
@@ -608,18 +714,15 @@ class Program
     
     
     public static int MySqrt(int x) { //https://leetcode.com/problems/sqrtx
-        int low = 1, high = x;
-        int mid = (high-low)/2+low;
-        while (low <=high){
-            if((long)mid*mid < x)
-                low = mid + 1;
-            else if ((long)mid*mid > x)
-                high = mid-1;
-            else
-                return mid;
-            mid = (high-low)/2+low;
+        int l = 0, h = x/2;
+        int avg = (h+l)/2;
+        while(l <= h){
+            if((long)avg*avg == x) break;
+            else if ((long)avg*avg > x) h = avg - 1;
+            else l = avg+1;
+            avg = (h-l)/2+l;
         }
-        return (long)mid*mid > x ? mid-1: mid;
+        return (long)avg*avg > x ? avg-1: avg;
     }
     #endregion
     
@@ -658,16 +761,14 @@ class Program
      //The algorithm works because if the list has no cycle, the fast pointer will eventually reach null and we know there is no loop.
      //But if there is a cycle, once both pointers are inside it, the fast pointer moves two steps while the slow moves one, so the distance between them decreases by one each time.
      //Eventually the fast pointer catches up to the slow pointer, which proves there is a cycle.
-        if (head == null || head.next == null) return false;
-
         ListNode slow = head;
         ListNode fast = head;
 
-        while (fast != null && fast.next != null) {
+        while (fast != null && fast.next != null) { 
             slow = slow.next;
             fast = fast.next.next;
 
-            if (slow == fast) return true;
+            if (slow == fast) return true; //by the name comparison, it regards the object references not the vals, this way diff nodes containing the same vals do not cause trouble.
         }
         return false;
     }*/
