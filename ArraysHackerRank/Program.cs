@@ -350,6 +350,19 @@ class Program
         void Swap(int[] nums, int i, int j) {
             (nums[i], nums[j]) = (nums[j], nums[i]);
         }
+        
+        
+        //Two Pass Simple Solution
+        /*
+        int[] rec = new int[3];
+        foreach(int no in nums)
+            rec[no]++;
+        for(int i = 0; i < nums.Length; i++){
+            if(rec[0] > 0){rec[0]--; nums[i] = 0;}
+            else if (rec[1] > 0){rec[1]--; nums[i] = 1;}
+            else nums[i] = 2;
+        }
+         */
     }
     public int[] SortArray(int[] nums) { //https://leetcode.com/problems/sort-an-array
         MergeSort(nums, 0, nums.Length - 1);
@@ -364,31 +377,132 @@ class Program
             Merge(arr, l, m, r);
         }
         
-        void Merge(int[] arr, int L, int M, int R) {
-            int[] left = arr[L..(M + 1)];
-            int[] right = arr[(M + 1)..(R + 1)];
-
-            int i = L, j = 0, k = 0;
-
-            while (j < left.Length && k < right.Length) {
-                if (left[j] <= right[k]) {
-                    arr[i++] = left[j++];
-                } else {
-                    arr[i++] = right[k++];
-                }
-            }
-
-            while (j < left.Length) {
-                arr[i++] = left[j++];
-            }
-
-            while (k < right.Length) {
-                arr[i++] = right[k++];
+        void Merge(int[] arr, int l, int m, int r){
+            int[] left = arr[l..(m+1)];
+            int[] right = arr[(m+1)..(r + 1)];
+            int pt = r;
+            r = right.Length - 1;
+            while(0 <= r){
+                if(m >= l && arr[m] >= right[r])
+                    arr[pt--] = arr[m--];
+                else
+                    arr[pt--] = right[r--];
             }
         }
     }
     
+    public static int[] TopKFrequent(int[] nums, int k) { //https://leetcode.com/problems/top-k-frequent-elements
+        Dictionary<int, int> count = new Dictionary<int, int>();
+        List<int>[] freq = new List<int>[nums.Length + 1];
+        for (int i = 0; i < freq.Length; i++) {
+            freq[i] = new List<int>();
+        }
+
+        foreach (int n in nums) {
+            if (count.ContainsKey(n)) {
+                count[n]++;
+            } else {
+                count[n] = 1;
+            }
+        }
+        foreach (var entry in count){
+            freq[entry.Value].Add(entry.Key);
+        }
+
+        int[] res = new int[k];
+        int index = 0;
+        for (int i = freq.Length - 1; i > 0; i--) {
+            foreach (int n in freq[i]) {
+                res[index++] = n;
+                if (index == k) {
+                    return res;
+                }
+            }
+        }
+        return res;
+    }
     
+    
+    public static int[] ProductExceptSelf(int[] nums) { //https://leetcode.com/problems/product-of-array-except-self
+        int prefix = 1;
+        int suffix = 1;
+        int[] result = new int[nums.Length];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            result[i] = prefix;
+            prefix *= nums[i];
+        }
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
+            result[i] *= suffix;
+            suffix *= nums[i];
+        }
+        return result;
+    }
+    
+    
+    public class NumMatrix { //https://leetcode.com/problems/range-sum-query-2d-immutable
+        private readonly int[][] ps;
+
+        public NumMatrix(int[][] matrix) {
+            int n = matrix.Length;
+            int m = (n == 0) ? 0 : matrix[0].Length;
+            ps = new int[n + 1][];
+            for (int i = 0; i <= n; i++) ps[i] = new int[m + 1];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    ps[i + 1][j + 1] = matrix[i][j]
+                                       + ps[i][j + 1]
+                                       + ps[i + 1][j]
+                                       - ps[i][j];
+                }
+            }
+        }
+
+        public int SumRegion(int row1, int col1, int row2, int col2) {
+            return ps[row2 + 1][col2 + 1]
+                   - ps[row1][col2 + 1]
+                   - ps[row2 + 1][col1]
+                   + ps[row1][col1];
+        }
+    }
+    
+    
+    public static bool IsValidSudoku(char[][] board) { //https://leetcode.com/problems/valid-sudoku
+        //This is the brute force solution.
+        for (int row = 0; row < 9; row++) {
+            HashSet<char> seen = new HashSet<char>();
+            for (int i = 0; i < 9; i++) {
+                if (board[row][i] == '.') continue;
+                if (seen.Contains(board[row][i])) return false;
+                seen.Add(board[row][i]);
+            }
+        }
+
+        for (int col = 0; col < 9; col++) {
+            HashSet<char> seen = new HashSet<char>();
+            for (int i = 0; i < 9; i++) {
+                if (board[i][col] == '.') continue;
+                if (seen.Contains(board[i][col])) return false;
+                seen.Add(board[i][col]);
+            }
+        }
+
+        for (int square = 1; square <= 9; square++) {
+            HashSet<char> seen = new HashSet<char>();
+            for (int i = 0; i < 3; i++) {
+                int row = ((square-1) / 3) * 3 + i;
+                for (int j = 0; j < 3; j++) {
+                    int col = ((square - 1) % 3) * 3 + j;
+                    if (board[row][col] == '.') continue;
+                    if (seen.Contains(board[row][col])) return false;
+                    seen.Add(board[row][col]);
+                }
+            }
+        }
+
+        return true;
+    }
     #endregion
     
     #region Two Pointers - NeetCode
