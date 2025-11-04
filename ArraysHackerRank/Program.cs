@@ -503,6 +503,52 @@ class Program
 
         return true;
     }
+    
+    public static int LongestConsecutive(int[] nums) { //https://leetcode.com/problems/longest-consecutive-sequence
+        //Time & Space Complexities: O(n)
+        HashSet<int> _set = new HashSet<int>(nums);
+        int counter = 0, highest = 0;
+        foreach(int num in _set){
+            if(!_set.Contains(num-1)){
+                counter = 1;
+                while(_set.Contains(num+counter))
+                    counter++;
+            }
+            highest = Math.Max(counter, highest);
+        }
+        return highest;
+    }
+    
+    
+    public IList<IList<int>> ThreeSum(int[] nums) { //https://leetcode.com/problems/3sum
+        //Time Complexity: O(n^2)
+        //Space Complexity: O(m) space for the output list.
+        Array.Sort(nums);
+        List<IList<int>> res = new List<IList<int>>();
+
+        for (int i = 0; i < nums.Length; i++) {
+            if (nums[i] > 0) break;
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int l = i + 1, r = nums.Length - 1;
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum > 0) {
+                    r--;
+                } else if (sum < 0) {
+                    l++;
+                } else {
+                    res.Add(new List<int> {nums[i], nums[l], nums[r]});
+                    l++;
+                    r--;
+                    while (l < r && nums[l] == nums[l - 1]) {
+                        l++;
+                    }
+                }
+            }
+        }
+        return res;
+    }
     #endregion
     
     #region Two Pointers - NeetCode
