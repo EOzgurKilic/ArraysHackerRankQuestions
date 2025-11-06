@@ -19,8 +19,6 @@ class Program
         {
             Console.WriteLine(VARIABLE);
         }
-
-        Console.WriteLine(dic.Values.GetType().Name);
         /*List<int> numbers = new List<int>(){1,2,3,4,5};
         List<int> rotatedNumbers = rotateLeft(2, numbers);
         foreach (var variable in rotatedNumbers)
@@ -121,7 +119,6 @@ class Program
         /*int[] arr1 = {1,2,3,0,0,0};
         int[] arr2 = {2,5,6};
         Merge(arr1,3,arr2,3);*/
-
 
     }
 
@@ -651,30 +648,39 @@ class Program
         //Time Complexity: O(n^2)
         //Space Complexity: O(m) space for the output list.
         Array.Sort(nums);
-        List<IList<int>> res = new List<IList<int>>();
-
-        for (int i = 0; i < nums.Length; i++) {
-            if (nums[i] > 0) break;
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-
-            int l = i + 1, r = nums.Length - 1;
-            while (l < r) {
+        List<IList<int>> final = new();
+        for(int i = 0; i < nums.Length-2; i++){ 
+            if(nums[i] > 0) break;
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            int l = i + 1, r = nums.Length -1;
+            while (l < r){
                 int sum = nums[i] + nums[l] + nums[r];
-                if (sum > 0) {
+                if(sum > 0) r--;
+                else if(sum < 0) l++;
+                else{
+                    final.Add(new List<int>(){nums[i], nums[l], nums[r]});
                     r--;
-                } else if (sum < 0) {
                     l++;
-                } else {
-                    res.Add(new List<int> {nums[i], nums[l], nums[r]});
-                    l++;
-                    r--;
-                    while (l < r && nums[l] == nums[l - 1]) {
-                        l++;
-                    }
+                    while(l < r && nums[l] == nums[l-1]) l++;
                 }
             }
         }
-        return res;
+        return final;
+    }
+    
+    
+    public static int MaxArea(int[] height) { https://leetcode.com/problems/container-with-most-water
+        //Time Complexity: O(n)
+        //Space Complexity: O(1)
+        int pt1 = 0, pt2 = height.Length - 1, final = 0;
+        while(pt1 < pt2){
+            int area = Math.Min(height[pt1], height[pt2]) * (pt2 - pt1);
+            final = Math.Max(final, area);
+
+            if(height[pt1] <= height[pt2]) pt1++;
+            else pt2--;
+        }
+        return final;
     }
     #endregion
 
@@ -706,6 +712,24 @@ class Program
             right++;
         }
         return maxProfit;
+    }
+    
+    
+    //------ Medium Questions ------
+    public static int LengthOfLongestSubstring(string s) { //https://leetcode.com/problems/longest-substring-without-repeating-characters
+        //Time Complexity: O(n)
+        //Space Complexity: O(m) space where m is the total number of unique characters in the string.
+        Dictionary<char, int> dic = new Dictionary<char, int>();
+        int l = 0, res = 0;
+
+        for (int r = 0; r < s.Length; r++) {
+            if (dic.ContainsKey(s[r])) {
+                l = Math.Max(dic[s[r]] + 1, l);
+            }
+            dic[s[r]] = r;
+            res = Math.Max(res, r - l + 1);
+        }
+        return res;
     }
     #endregion
     
