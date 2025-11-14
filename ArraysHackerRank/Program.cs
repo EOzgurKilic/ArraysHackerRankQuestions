@@ -8,11 +8,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        char[] charArr = new char[]{'d','r','e'};
+        char[] charArr = new char[] { 'd', 'r', 'e' };
         Array.Sort(charArr);
         foreach (char item in charArr)
             Console.WriteLine(item);
-        Dictionary<int,char> dic = new Dictionary<int,char>();
+        Dictionary<int, char> dic = new Dictionary<int, char>();
         dic[0] = 'i';
         dic[1] = 'e';
         foreach (var VARIABLE in dic.Values)
@@ -120,6 +120,10 @@ class Program
         int[] arr2 = {2,5,6};
         Merge(arr1,3,arr2,3);*/
 
+
+        //CharacterReplacement
+        string str = "ABAA"; 
+        CharacterReplacement(str,0);
     }
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
@@ -731,6 +735,29 @@ class Program
         }
         return res;
     }
+    
+    public static int CharacterReplacement(string s, int k) { //https://leetcode.com/problems/longest-repeating-character-replacement
+        Dictionary<char, int> count = new Dictionary<char, int>();
+        int res = 0;
+
+        int l = 0, maxf = 0;
+        for (int r = 0; r < s.Length; r++) {
+            if (count.ContainsKey(s[r])) {
+                count[s[r]]++;
+            } else {
+                count[s[r]] = 1;
+            }
+            maxf = Math.Max(maxf, count[s[r]]);
+
+            while ((r - l + 1) - maxf > k) {
+                count[s[l]]--;
+                l++;
+            }
+            res = Math.Max(res, r - l + 1);
+        }
+
+        return res;
+    }
     #endregion
     
     #region Stack
@@ -907,6 +934,21 @@ class Program
             avg = (h-l)/2+l;
         }
         return (long)avg*avg > x ? avg-1: avg;
+    }
+    
+    
+    //--------------------Medium Questions ---------------------------
+    public static int FindMin(int[] nums) { //https://leetcode.com/problems/find-minimum-in-rotated-sorted-array
+        int l = 0, r = nums.Length - 1;
+        while (l < r)
+        {
+            int m = l + (r - l) / 2;
+            if (nums[m] > nums[r])
+                l = m + 1;
+            else
+                r = m; 
+        }
+        return nums[l];
     }
     #endregion
     

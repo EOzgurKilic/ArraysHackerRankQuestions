@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArraysHackerRank")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a221d05af3d63ff1203ff7d31403f438886661a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9377576aeeecc3aeb1a85898428fed3ca97ce2c5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArraysHackerRank")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArraysHackerRank")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
