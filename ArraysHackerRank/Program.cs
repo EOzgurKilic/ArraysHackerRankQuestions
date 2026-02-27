@@ -4,21 +4,19 @@ using System.Text.RegularExpressions;
 
 namespace ArraysHackerRank;
 
+public class ListNode {
+    public int val;
+    public ListNode next;
+    public ListNode(int val=0, ListNode next=null) {
+        this.val = val;
+            this.next = next;
+       }
+}
+
 class Program
 {
     static void Main(string[] args)
     {
-        char[] charArr = new char[] { 'd', 'r', 'e' };
-        Array.Sort(charArr);
-        foreach (char item in charArr)
-            Console.WriteLine(item);
-        Dictionary<int, char> dic = new Dictionary<int, char>();
-        dic[0] = 'i';
-        dic[1] = 'e';
-        foreach (var VARIABLE in dic.Values)
-        {
-            Console.WriteLine(VARIABLE);
-        }
         /*List<int> numbers = new List<int>(){1,2,3,4,5};
         List<int> rotatedNumbers = rotateLeft(2, numbers);
         foreach (var variable in rotatedNumbers)
@@ -125,6 +123,7 @@ class Program
         string str = "ABAA"; 
         CharacterReplacement(str,0);
     }
+    
 
     static int TwoDArrayDS(List<List<int>> arr) //https://www.hackerrank.com/challenges/2d-array/problem?isFullScreen=true
     {
@@ -291,31 +290,24 @@ class Program
     
     
     public bool IsAnagram(string s, string t) {https://leetcode.com/problems/valid-anagram
-        if (s.Length != t.Length)
-            return false;
-        Dictionary<char,int> rec = new();
-        foreach (var i in s){
-            if(!rec.ContainsKey(i))
-                rec.Add(i,0);
-            rec[i]++;
-        }
-        foreach (var i in t){
-            if(!(rec.ContainsKey(i) && --rec[i] >= 0))
+        if(s.Length != t.Length) return false;
+        int[] count = new int[26];
+        for(int i = 0; i < s.Length; i++)
+            count[s[i] - 'a']++;
+        for(int i = 0; i < t.Length; i++)
+            if(--count[t[i] - 'a'] < 0)
                 return false;
-        }
         return true;
     }
     
     
     public int[] TwoSum(int[] nums, int target) { //https://leetcode.com/problems/two-sum
-        Dictionary<int,int> _rec = new();
+        Dictionary<int,int> rec = new();
         for(int i = 0; i < nums.Length; i++){
-            if(_rec.TryGetValue(target - nums[i], out int index))
-                return new int[2]{index, i};
-            if(!_rec.ContainsKey(nums[i]))
-                _rec.Add(nums[i], i);
+            if(rec.TryGetValue(target - nums[i], out int index)) return new int[2]{index, i};
+            if(!rec.ContainsKey(nums[i])) rec[nums[i]] = i;
         }
-        return Array.Empty<int>();
+        return new int[0];
     }
     
     
@@ -537,33 +529,20 @@ class Program
     
     public static bool IsPalindrome(string s) //https://leetcode.com/problems/valid-palindrome
     {
-        var left = 0;
-        var right = s.Length - 1;
-        while (left <= right)
-        {
-            if (!IsAlphaNumeric(s[left]))
-            {
-                left++;
-                continue;
-            }
-
-            if (!IsAlphaNumeric(s[right]))
-            {
-                right--;
-                continue;
-            }
-            
-            if(char.ToLowerInvariant(s[left]) != char.ToLowerInvariant(s[right])) 
+        int pt1 = 0, pt2 = s.Length - 1;
+        while(pt1 < pt2){
+            if(!IsAlphaNumeric(s[pt1]))
+                pt1++;
+            else if (!IsAlphaNumeric(s[pt2]))
+                pt2--;
+            else if (char.ToLowerInvariant(s[pt1++]) != char.ToLowerInvariant(s[pt2--]))
                 return false;
-            
-            left++; right--;
-        }
-
+        } 
         return true;
-
-        bool IsAlphaNumeric(char c)
+        
+        bool IsAlphaNumeric(char x)
         {
-            return c is >= '0' and <= '9' or >= 'A' and <= 'Z' or >= 'a' and <= 'z';
+            return x >= 'A' && x <= 'Z' || x <= 'z' && x >= 'a' || x >= '0' && x <= '9'; 
         }
     }
     public static bool ValidPalindrome(string s) { //https://leetcode.com/problems/valid-palindrome-ii
@@ -950,10 +929,31 @@ class Program
         }
         return nums[l];
     }
+    
+    
+    public static int Search(int[] nums, int target) { //https://leetcode.com/problems/search-in-rotated-sorted-array
+        int l = 0, r = nums.Length - 1;
+        int m = (r-l)/2+l;
+        while(l <= r){
+            if(nums[m] == target) return m;
+            if(nums[m] < nums[r])
+                if(target > nums[m] && target <= nums[r])
+                    l = m + 1;
+                else r = m - 1;
+            else{ 
+                if (nums[m] > target && nums[l] <= target)
+                    r = m - 1;
+                else l = m + 1;
+            }
+        
+            m = (r-l)/2+l;
+        }
+        return -1;
+    }
     #endregion
     
     #region LinkedLists - NeetCode
-    /*public ListNode ReverseList(ListNode head) { //https://leetcode.com/problems/reverse-linked-list
+    public ListNode ReverseList(ListNode head) { //https://leetcode.com/problems/reverse-linked-list
         ListNode next = null, prev = null;
         while (head != null){
             next = head.next;
@@ -962,10 +962,10 @@ class Program
             head = next;
         }
         return prev;
-    }*/
+    }
     
     
-    /*public ListNode MergeTwoLists(ListNode list1, ListNode list2) { //https://leetcode.com/problems/merge-two-sorted-lists
+    public ListNode MergeTwoLists(ListNode list1, ListNode list2) { //https://leetcode.com/problems/merge-two-sorted-lists
         ListNode final = new();
         ListNode temp = final;
         while(list1 != null && list2 != null){
@@ -981,9 +981,9 @@ class Program
         }
         temp.next = list1 != null ? list1: list2; //Wiring it to the remaining of the notnull list.
         return final.next;
-    }*/
+    }
 
-    /*public bool HasCycle(ListNode head) { https://leetcode.com/problems/linked-list-cycle
+    public bool HasCycle(ListNode head) { https://leetcode.com/problems/linked-list-cycle
      //The algorithm works because if the list has no cycle, the fast pointer will eventually reach null and we know there is no loop.
      //But if there is a cycle, once both pointers are inside it, the fast pointer moves two steps while the slow moves one, so the distance between them decreases by one each time.
      //Eventually the fast pointer catches up to the slow pointer, which proves there is a cycle.
@@ -997,7 +997,56 @@ class Program
             if (slow == fast) return true; //by the name comparison, it regards the object references not the vals, this way diff nodes containing the same vals do not cause trouble.
         }
         return false;
-    }*/
+    }
+    
+    public static void ReorderList(ListNode head) { //https://leetcode.com/problems/reorder-list/
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode second = slow.next;
+        ListNode prev = slow.next = null;
+        while (second != null) {
+            ListNode tmp = second.next;
+            second.next = prev;
+            prev = second;
+            second = tmp;
+        }
+
+        ListNode first = head;
+        second = prev;
+        while (second != null) {
+            ListNode tmp1 = first.next;
+            ListNode tmp2 = second.next;
+            first.next = second;
+            second.next = tmp1;
+            first = tmp1;
+            second = tmp2;
+        }
+    }
+    
+    public static ListNode RemoveNthFromEnd(ListNode head, int n) { //https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+        ListNode dummy = new();
+        dummy.next = head;
+        ListNode l = dummy, r = head;
+
+        //First we will move r by n times so that we could keep the gap equal to n between l and r. This way, when r reaches null, we will end the loop and l will be pointing to the node intended to be removed.
+
+        while(n-- > 0)
+            r = r.next;
+
+        while(r != null){
+            r = r.next;
+            l = l.next;
+        }
+
+        l.next = l.next.next;
+
+        return dummy.next;
+    }
     #endregion
     
 }
