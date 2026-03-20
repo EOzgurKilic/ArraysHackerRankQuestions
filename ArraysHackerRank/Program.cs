@@ -837,8 +837,8 @@ class Program
             return que.Count == 0;
         }
     }
-    
-    
+
+
     public class MyQueue //https://leetcode.com/problems/implement-queue-using-stacks
     {
         private readonly Stack<int> inSt = new();
@@ -867,8 +867,40 @@ class Program
                     outSt.Push(inSt.Pop());
         }
     }
-    #endregion
+
+    //-------------------Medium Questions--------------------
+    /*
+    public class MinStack { //https://leetcode.com/problems/min-stack/
+    Stack<int> minLog; 
+    Stack<int> stack;
+    public MinStack() {
+        stack = new();
+        minLog = new(); 
+    }
     
+    public void Push(int val) {
+        stack.Push(val);
+        if(minLog.Count == 0 || val <= minLog.Peek())
+            minLog.Push(val);
+    }
+    
+    public void Pop() {
+        if(stack.Pop() == minLog.Peek())
+            minLog.Pop();
+    }
+    
+    public int Top() {
+        return stack.Peek();
+    }
+    
+    public int GetMin() {
+        return minLog.Peek();
+    }
+    }
+    */
+
+    #endregion
+
     #region Binary Search - NeetCode
     public static int SearchInsert(int[] arr, int val) { //https://leetcode.com/problems/search-insert-position
         int l = 0, h = arr.Length -1;
