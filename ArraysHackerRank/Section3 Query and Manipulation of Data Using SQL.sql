@@ -95,11 +95,69 @@
     especially when working with databases where you don't control the naming conventions.
 
 
+------------------------------------------------------------------------------------------------------------
+    2. VIEWS
+        2.1 Definition
+    a VIEW in SQL Server is a virtual table that contains data from one or multiple tables.  These tables might be from different DBs.
+
+    2.1 Prototype
+
+        CREATE VIEW view_name AS
+        SELECT tb1.column1, tb2.column2, ...
+        FROM tb1 as b1 INNER JOIN tb2 as b2
+        ON b1.column1 = b2.column1 //Imagine column1 is the primary key of tb1 and foreign key of tb2 corresponding to column1 of tb1
+        WHERE condition;
+
+        Exp:
+        CREATE VIEW Brands.vw_Branches_Only_KFC
+        AS
+        SELECT
+            b.id_Branch,
+            b.Branch_Name,
+            b.Branch_Address,
+            b.Branch_Phone,
+            b.created_at,
+            bt.Brand_Name
+        FROM Brands.Branches AS b
+        INNER JOIN Brands.BrandTypes AS bt
+            ON b.id_BrandType = bt.id_BrandType
+        WHERE bt.Brand_Name = 'KFC';
+
+----------------------------------------------------------------------------------------------------------
+
+ 3. SELECT Command in Detail
+
+    3.1 Compherensive Prototype
+
+    SELECT TOP 10 colunm1, column2... columnN (or just * asterisk char if you want to select all columns and top no brings no_th number of rows from the table)
+    FROM table
+    [WHERE condition]
+    [GROUP BY expression]
+    [HAVING condition]
+    [ORDER BY expression];
+
+    The ones between the square brackets are optional.
+
+---------------------------------------------------------------------------------------------------------
+
+    4. Operators in SQL merely different than the ones in C#
+
+    4.1 Relational Operators
+
+    <, >, <=, >=, =, !=, <>
+    <> this literally is != operator in C# and != operator is also used in SQL too.
+    !< equals >
+    !> equals < I do not even know why this one and the one above does exist at all.
 
 
+    4.2 Logical Operators
 
-
-
+    AND, OR, NOT you know these already from C#.
+    Between..and
+    Is null, is not null
+    like
+    Unique
+    etc.
 
 
 

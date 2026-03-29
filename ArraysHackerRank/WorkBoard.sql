@@ -55,3 +55,16 @@ from Brands.Branches
 where id_BrandType = 1;
 
 select * from #tempTable2;
+
+Create or alter view trial as
+    select
+        branch.id_branch,
+        Branch.Branch_Name,
+        brand.id_BrandType
+    FROM brands.Branches as branch inner join Brands.BrandTypes as brand
+    on brand.id_BrandType = branch.id_BrandType
+    where brand.id_BrandType < 3;
+
+select top 10 * from Brands.Branches; /*Top no brings the initial no_th numbers from the table*/
+
+
