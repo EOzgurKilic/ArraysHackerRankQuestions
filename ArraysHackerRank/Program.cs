@@ -911,7 +911,19 @@ class Program
     }
     }
     */
-
+    
+    
+    public static int[] DailyTemperatures(int[] temperatures) { //https://leetcode.com/problems/daily-temperatures/
+        Stack<(int ind, int val)> rec = new();
+        int[] final = new int[temperatures.Length];
+        for(int i = 0; i < temperatures.Length; i++){
+            while(rec.Count != 0 && rec.Peek().val < temperatures[i]){
+                final[rec.Peek().ind] = i - rec.Pop().ind;
+            }
+            rec.Push((i, temperatures[i]));
+        }
+        return final;
+    } 
     #endregion
 
     #region Binary Search - NeetCode
