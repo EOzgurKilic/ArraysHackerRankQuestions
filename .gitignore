@@ -1,0 +1,16 @@
+# Build outputs
+bin
+obj
+
+# .NET specific
+.user
+.suo
+.cache
+
+# Visual Studio  Rider
+.vs
+.idea
+
+# Assembly info (auto-generated)
+AssemblyInfo.cs
+AssemblyInfoInputs.cache
