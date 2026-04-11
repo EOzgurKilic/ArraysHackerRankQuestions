@@ -665,6 +665,19 @@ class Program
         }
         return final;
     }
+    public static int[] TwoSum(int[] numbers, int target) //https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+    {
+        //Can't say that this first solution of mine below is following the two pointers approach but still is optimal
+        //I will add the one based on two pointers soon below this hashmap approach to the problem
+        int[] res = new int[4001];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            if (res[target - numbers[i] + 2000] != 0)
+                return new int[2] { res[target - numbers[i] + 2000], i + 1 };
+            res[numbers[i] + 2000] = i + 1;
+        }
+        return new int[0];
+    }
     #endregion
 
     #region Sliding Window - NeetCode
