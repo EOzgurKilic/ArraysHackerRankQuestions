@@ -71,4 +71,37 @@ public class SlidingWindow
 
         return res;
     }
+    
+    
+    public static bool CheckInclusion(string s1, string s2) {
+        if(s1.Length > s2.Length) return false;
+        int[] s1Rec = new int[26];
+        int[] s2Rec = new int[26];
+        int pt1 = 0, pt2 = 0, count = 0;
+        while (pt2 < s1.Length){ //Initial Window Generation
+            s1Rec[s1[pt2] - 'a']++;
+            s2Rec[s2[pt2] - 'a']++;
+            pt2++;
+        }
+        
+        for(int i = 0; i < 26; i++){
+            if(s1Rec[i] == s2Rec[i])
+                count++;
+        }
+
+        while(pt2 < s2.Length){
+            if(count == 26) return true;
+
+            s2Rec[s2[pt2] - 'a']++;
+            if(s2Rec[s2[pt2] - 'a'] == s1Rec[s2[pt2] - 'a']) count++;
+            else if(s2Rec[s2[pt2] - 'a'] - 1 == s1Rec[s2[pt2] - 'a']) count--;
+            
+            s2Rec[s2[pt1] - 'a']--;
+            if(s2Rec[s2[pt1] - 'a'] == s1Rec[s2[pt1] - 'a']) count++;
+            else if(s2Rec[s2[pt1] - 'a'] + 1 == s1Rec[s2[pt1] - 'a']) count--;
+            pt2++;
+            pt1++;
+        }
+        return count == 26;
+    }
 }
