@@ -82,4 +82,17 @@ public class BinarySearch
         }
         return -1;
     }
+    
+    
+    public bool SearchMatrix(int[][] matrix, int target) { //https://leetcode.com/problems/search-a-2d-matrix/
+        int Length = matrix.Length * matrix[0].Length;
+        int piv = matrix[0].Length, l = 0, r = Length - 1;
+        while(l <= r){
+            int avg = (r-l)/2 + l;
+            if(matrix[avg/piv][avg%piv] == target) return true;
+            else if(matrix[avg/piv][avg%piv] > target) r = avg - 1;
+            else l = avg + 1;
+        }
+        return false; 
+    }
 }

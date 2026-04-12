@@ -73,7 +73,7 @@ public class SlidingWindow
     }
     
     
-    public static bool CheckInclusion(string s1, string s2) {
+    public static bool CheckInclusion(string s1, string s2) { //https://leetcode.com/problems/permutation-in-string/description/
         if(s1.Length > s2.Length) return false;
         int[] s1Rec = new int[26];
         int[] s2Rec = new int[26];
