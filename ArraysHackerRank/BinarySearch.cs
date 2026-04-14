@@ -85,14 +85,15 @@ public class BinarySearch
     
     
     public bool SearchMatrix(int[][] matrix, int target) { //https://leetcode.com/problems/search-a-2d-matrix/
-        int Length = matrix.Length * matrix[0].Length;
-        int piv = matrix[0].Length, l = 0, r = Length - 1;
-        while(l <= r){
-            int avg = (r-l)/2 + l;
-            if(matrix[avg/piv][avg%piv] == target) return true;
-            else if(matrix[avg/piv][avg%piv] > target) r = avg - 1;
+        int l = 0, r = matrix.Length * matrix[0].Length - 1, piv = matrix[0].Length;
+        while (l <= r)
+        {
+            int avg = (r - l) / 2 + l;
+            int val = matrix[avg / piv][avg % piv];
+            if (val == target) return true;
+            else if (val > target) r = avg - 1;
             else l = avg + 1;
         }
-        return false; 
+        return false;
     }
 }
