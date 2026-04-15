@@ -40,8 +40,8 @@ public class SlidingWindow
         int l = 0, res = 0;
 
         for (int r = 0; r < s.Length; r++) {
-            if (dic.ContainsKey(s[r])) {
-                l = Math.Max(dic[s[r]] + 1, l);
+            if (dic.TryGetValue(s[r], out int val)) {
+                l = Math.Max(val, l);
             }
             dic[s[r]] = r;
             res = Math.Max(res, r - l + 1);
