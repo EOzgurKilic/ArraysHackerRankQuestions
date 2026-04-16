@@ -179,20 +179,20 @@ public class Stack
     
     
     public static int EvalRPN(string[] tokens) {
-        int result = 0;
         Stack<int> rec = new();
-        for(int i = 0; i < tokens.Length; i++){
-            if(tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/"){
-                int no = rec.Pop();
-                switch(tokens[i]){
-                    case "*": result = rec.Pop() * no; rec.Push(result); break;
-                    case "/": result = rec.Pop() / no; rec.Push(result); break;
-                    case "-": result = rec.Pop() - no; rec.Push(result); break;
-                    case "+": result = rec.Pop() + no; rec.Push(result); break;
-                }
+        
+        int no1 = 0, no2 = 0;
+        foreach (var i in tokens)
+        {
+            switch (i)
+            {
+                case "+": no2 = rec.Pop(); no1 = rec.Pop() + no2; break;
+                case "-": no2 = rec.Pop(); no1 = rec.Pop() - no2; break;
+                case "*": no2 = rec.Pop(); no1 = rec.Pop() * no2; break;
+                case "/": no2 = rec.Pop(); no1 = rec.Pop() / no2; break;
+                default: no1 = int.Parse(i); break;
             }
-            else
-                rec.Push(int.Parse(tokens[i]));
+            rec.Push(no1);
         }
         return rec.Pop();
     }
