@@ -147,7 +147,7 @@
     <, >, <=, >=, =, !=, <>
     <> this literally is != operator in C# and != operator is also used in SQL too.
     !< equals >
-    !> equals < I do not even know why this one and the one above does exist at all.
+    !> equals < I do not even know why this one and the one above do exist at all.
 
 
     4.2 Logical Operators
