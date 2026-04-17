@@ -251,37 +251,44 @@ public class Arrays_Hashing
     
     public static bool IsValidSudoku(char[][] board) { //https://leetcode.com/problems/valid-sudoku
         //This is the brute force solution.
-        for (int row = 0; row < 9; row++) {
-            HashSet<char> seen = new HashSet<char>();
-            for (int i = 0; i < 9; i++) {
-                if (board[row][i] == '.') continue;
-                if (seen.Contains(board[row][i])) return false;
-                seen.Add(board[row][i]);
+        Dictionary<char, int> rec = new();
+        for (int i = 0; i < 9; i++)
+        {
+            rec = new();
+            for (int j = 0; j < 9; j++)
+            {
+                if (board[i][j] == '.') continue;
+                if (rec.TryGetValue(board[i][j], out int val)) return false;
+                rec[board[i][j]] = 1;
             }
         }
 
-        for (int col = 0; col < 9; col++) {
-            HashSet<char> seen = new HashSet<char>();
-            for (int i = 0; i < 9; i++) {
-                if (board[i][col] == '.') continue;
-                if (seen.Contains(board[i][col])) return false;
-                seen.Add(board[i][col]);
+        for (int i = 0; i < 9; i++)
+        {
+            rec = new();
+            for (int j = 0; j < 9; j++)
+            {
+                if (board[j][i] == '.') continue;
+                if (rec.TryGetValue(board[j][i], out int val)) return false;
+                rec[board[j][i]] = 1;
             }
         }
 
-        for (int square = 1; square <= 9; square++) {
-            HashSet<char> seen = new HashSet<char>();
-            for (int i = 0; i < 3; i++) {
-                int row = ((square-1) / 3) * 3 + i;
-                for (int j = 0; j < 3; j++) {
-                    int col = ((square - 1) % 3) * 3 + j;
-                    if (board[row][col] == '.') continue;
-                    if (seen.Contains(board[row][col])) return false;
-                    seen.Add(board[row][col]);
+        for (int i = 0; i < 9; i++)
+        {
+            int row = (i / 3) * 3;
+            int col = (i % 3) * 3;
+            rec = new();
+            for (int j = 0; j < 3; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    if (board[row + k][col + j] == '.') continue;
+                    if (rec.TryGetValue(board[row + k][col + j], out int val)) return false;
+                    rec[board[row + k][col + j]] = 1;
                 }
             }
         }
-
         return true;
     }
     
