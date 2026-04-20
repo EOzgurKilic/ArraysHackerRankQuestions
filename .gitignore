@@ -4,6 +4,7 @@ obj/
 
 # .NET specific
 .user
+.csproj.user
 .suo
 .cache
 
