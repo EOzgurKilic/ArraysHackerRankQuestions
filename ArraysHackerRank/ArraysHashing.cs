@@ -101,17 +101,21 @@ public class Arrays_Hashing
     
     //------ Medium Questions ------
     public IList<IList<string>> GroupAnagrams(string[] strs) { //https://leetcode.com/problems/group-anagrams
-        var res = new Dictionary<string, List<string>>();
-        foreach (var s in strs) {
-            char[] charArray = s.ToCharArray();
-            Array.Sort(charArray);
-            string sortedS = new string(charArray);
-            if (!res.ContainsKey(sortedS)) {
-                res[sortedS] = new List<string>();
-            }
-            res[sortedS].Add(s);
+        //Time Complexity: O(m.n) where m is the longest string and n is the lenght of the array.
+        int[] sort = new int[26];
+        Dictionary<string, IList<string>> rec = new();
+        foreach (var i in strs)
+        {
+            sort = new int[26];
+            for (int j = 0; j < i.Length; j++)
+                sort[i[j] - 'a']++;
+
+            string str = String.Join(',', sort);
+            if (rec.TryGetValue(str, out IList<string> list)) list.Add(i);
+            else rec[str] = new List<string>() {i};
         }
-        return res.Values.ToList<IList<string>>();
+
+        return rec.Values.ToList<IList<string>>();
     }
     
     public void SortColors(int[] nums) { https://leetcode.com/problems/sort-colors/description
