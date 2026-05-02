@@ -96,4 +96,21 @@ public class BinarySearch
         }
         return false;
     }
+    
+    public int MinEatingSpeed(int[] piles, int h) { //https://leetcode.com/problems/koko-eating-bananas/
+        //Time Complexity (n * log(m)) where n is the lenght of the array and m is [1..<theHighestElementInTheArray>] 
+        int l = 1, r = piles.Max();
+        while(l <= r){
+            int mid = (r-l)/2 + l;
+            long time = 0;
+            foreach(var i in piles){
+                time += (int)Math.Ceiling((double)i/mid);
+            }
+
+            if(time <= h)
+                r = mid - 1;
+            else l = mid + 1;
+        }
+        return l;
+    }
 }
