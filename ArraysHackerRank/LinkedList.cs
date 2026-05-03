@@ -38,12 +38,12 @@ public class LinkedList
         return final.next;
     }
 
-    public bool HasCycle(ListNode head)
-    {
-    https://leetcode.com/problems/linked-list-cycle
-          //The algorithm works because if the list has no cycle, the fast pointer will eventually reach null and we know there is no loop.
-          //But if there is a cycle, once both pointers are inside it, the fast pointer moves two steps while the slow moves one, so the distance between them decreases by one each time.
-          //Eventually the fast pointer catches up to the slow pointer, which proves there is a cycle.
+    public bool HasCycle(ListNode head) //https://leetcode.com/problems/linked-list-cycle
+    {      
+        //Floyd's Cycle Detection Algorithm is used for this solution
+        //The algorithm works because if the list has no cycle, the fast pointer will eventually reach null and we know there is no loop.
+        //But if there is a cycle, once both pointers are inside it, the fast pointer moves two steps while the slow moves one, so the distance between them decreases by one each time.
+        //Eventually the fast pointer catches up to the slow pointer, which proves there is a cycle.
         ListNode slow = head;
         ListNode fast = head;
 
@@ -135,5 +135,36 @@ public class LinkedList
         lng.next = carry > 0 ? new ListNode(carry) : null;
 
         return dummy.next;
+    }
+    public static int FindDuplicate(int[] nums) { //https://leetcode.com/problems/find-the-duplicate-number/
+        /*
+         It basically comes from the equation;
+         2 * slow = fast ~ 2(p + c - x) = p + c + c - x
+            = 2p + 2c - 2x = p + 2c - x
+            = p - x = 0 
+        which tells us that p = x and since the way that the second slow ptr goes to reach the cycle start (p) is the same length the slow pointer does to get to the cycle start from the meeting point (x),
+        slow2 and slow pointer will bring us the duplicate as they will meet at the same element's index by coming from different elements' values.
+        where 
+            - p = the distance from the arr start to the cycle start
+            - c = the length of the cycle
+            - x = the length from the meeting point of slow and fast ptrs within the cycle to the cycle start
+        */
+        int slow = 0, fast = 0;
+        while (true) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        int slow2 = 0;
+        while (true) {
+            slow = nums[slow];
+            slow2 = nums[slow2];
+            if (slow == slow2) {
+                return slow;
+            }
+        }
     }
 }
