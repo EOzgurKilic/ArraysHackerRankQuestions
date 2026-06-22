@@ -11,29 +11,9 @@ public static class LeetCodeWhiteboard
 public class Solution
 {
     public static void AnswerVoid(){}
-    public static int AnswerInt(int[] piles, int h)
+    public static int AnswerInt()
     {
-        int l = 0, r = piles.Max();
-        int hour = 0;
-        int m = 0;
-        while (l <= r)
-        {
-            m = l + (r-l)/2;
-            hour = 0;
-            foreach (var pile in piles)
-            {
-                hour += (int)Math.Ceiling((double)pile/m);
-            }
-            if (hour > h)
-            {
-                l = m + 1;
-            }
-            else
-            {
-                r = m - 1;
-            }
-        }
-        return m;
+        return 0;
     }
     public static int[] AnswerIntArr()
     {
@@ -42,5 +22,36 @@ public class Solution
     public static string AnswerString()
     {
         return "";
+    }
+
+    public static bool AnswerBool(char[][] board)
+    {
+        
+        return true;
+    }
+}
+public class TimeMap {
+    Dictionary<string, List<(int timestamp, string value)>> rec;
+    public TimeMap() {
+        rec = new();
+    }
+    
+    public void Set(string key, string value, int timestamp) {
+        if(!rec.ContainsKey(key)) rec[key] = new();
+        rec[key].Add((timestamp, value));
+    }
+    
+    public string Get(string key, int timestamp) {
+    if(!rec.ContainsKey(key)) return "";
+
+    int r = rec[key].Count - 1, l = 0;
+    while(l <= r)
+        {
+            int m = (r - l)/2 + l;
+            if(rec[key][m].timestamp == timestamp) return rec[key][m].value;
+            else if(rec[key][m].timestamp > timestamp) r = m - 1;
+            else l = m + 1;
+        }
+        return rec[key][l].value;
     }
 }
