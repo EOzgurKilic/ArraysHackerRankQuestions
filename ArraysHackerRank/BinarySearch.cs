@@ -113,4 +113,34 @@ public class BinarySearch
         }
         return l;
     }
+
+
+    class TimeMap { //https://leetcode.com/problems/time-based-key-value-store/
+
+    Dictionary<string, List<Tuple<int, string>>> rec;
+    public TimeMap() {
+        rec = new();
+    }
+    
+    public void Set(string key, string value, int timestamp) {
+        if(!rec.ContainsKey(key)) rec[key] = new();
+        rec[key].Add(Tuple.Create(timestamp, value));
+    }
+    
+    public string Get(string key, int timestamp) {
+    if(!rec.ContainsKey(key)) return "";
+        int l = 0, r = rec[key].Count - 1, mid = 0;
+        var vals= rec[key];
+        string final = "";
+        while(l <= r){
+            mid = (r-l)/2 + l;
+            if(vals[mid].Item1 <= timestamp){
+                l = mid + 1;
+                final = vals[mid].Item2;
+            }
+            else r = mid - 1;
+        }
+
+        return final;
+    }
 }
