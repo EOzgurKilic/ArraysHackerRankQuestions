@@ -50,26 +50,27 @@ public class SlidingWindow
     }
     
     public static int CharacterReplacement(string s, int k) { //https://leetcode.com/problems/longest-repeating-character-replacement
-        Dictionary<char, int> count = new Dictionary<char, int>();
-        int res = 0;
+        int l = 0, r = 0;
+        int final = 0;
+        int[] rec = new int[26];
+        int candidate = 0;
 
-        int l = 0, maxf = 0;
-        for (int r = 0; r < s.Length; r++) {
-            if (count.ContainsKey(s[r])) {
-                count[s[r]]++;
-            } else {
-                count[s[r]] = 1;
-            }
-            maxf = Math.Max(maxf, count[s[r]]);
+        while(r < s.Length){
+            rec[s[r] - 'A']++;
 
-            while ((r - l + 1) - maxf > k) {
-                count[s[l]]--;
-                l++;
-            }
-            res = Math.Max(res, r - l + 1);
+        if (candidate < rec[s[r] - 'A']) 
+            candidate = rec[s[r] - 'A'];
+
+        while(r - l + 1 - candidate > k){
+            rec[s[l] - 'A']--;
+            l++;
         }
 
-        return res;
+        final = Math.Max(r - l + 1, final);
+        r++;
+        }
+
+        return final;
     }
     
     
