@@ -294,6 +294,41 @@ public class Arrays_Hashing
             }
         }
         return true;
+
+        //The Solution Where The Record is in array (faster)
+
+        /*
+        int[] rec = new int[9];
+        
+        for(int i = 0; i < 9; i++){
+            Array.Clear(rec, 0, rec.Length);
+            for(int j = 0; j < 9; j++) {
+                if(board[i][j] == '.') continue;
+                if(++rec[board[i][j] - '1'] > 1) return false;
+            }
+        }
+
+        for(int i = 0; i < 9; i++){
+            Array.Clear(rec, 0, rec.Length);
+            for(int j = 0; j < 9; j++) {
+                if(board[j][i] == '.') continue;
+                if(++rec[board[j][i] - '1'] > 1) return false;
+            }
+        }
+
+        for(int i = 0; i < 9; i++){
+            int row = (i % 3) * 3;
+            int column = (i / 3) * 3;
+            Array.Clear(rec, 0, rec.Length);
+            for(int j = 0; j < 3; j++){
+                for(int k = 0; k < 3; k++){
+                    if(board[j + column][k + row] == '.') continue;
+                    if(++rec[board[j + column][k + row] - '1'] > 1) return false;
+                }
+            }
+        }
+        return true;
+        */
     }
     
     public static int LongestConsecutive(int[] nums) { //https://leetcode.com/problems/longest-consecutive-sequence

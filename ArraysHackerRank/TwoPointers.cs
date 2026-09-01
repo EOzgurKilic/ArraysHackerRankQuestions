@@ -160,12 +160,22 @@ public class TwoPointers
     {
         //Can't say that this first solution of mine below is following the two pointers approach but still is optimal
         //I will add the one based on two pointers soon below this hashmap approach to the problem
-        int[] res = new int[4001];
+        //UPDATE: This solution is wrong bec of the range calculations and requires rework.
+        /*int[] res = new int[4001];
         for (int i = 0; i < numbers.Length; i++)
         {
             if (res[target - numbers[i] + 2000] != 0)
                 return new int[2] { res[target - numbers[i] + 2000], i + 1 };
             res[numbers[i] + 2000] = i + 1;
+        }
+        return new int[0];*/
+
+        //Here is the Two Pointers solution
+        int l = 0, r = numbers.Length - 1;
+        while(true){
+            if(numbers[l] + numbers[r] == target) return new int[]{l + 1, r + 1};
+            else if(numbers[l] + numbers[r] > target) r--;
+            else l++;
         }
         return new int[0];
     }
