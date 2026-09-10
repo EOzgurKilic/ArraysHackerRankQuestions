@@ -335,7 +335,7 @@ public class Arrays_Hashing
         //Time & Space Complexities: O(n)
         HashSet<int> _set = new HashSet<int>(nums);
         int counter = 0, highest = 0;
-        foreach(int num in _set){
+        foreach(int num in _set){ //you use here the hashset so that u could get rid of the useless duplicates that might exist in the original array.
             if(!_set.Contains(num-1)){
                 counter = 1;
                 while(_set.Contains(num+counter))
