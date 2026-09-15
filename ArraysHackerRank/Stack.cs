@@ -196,4 +196,17 @@ public class Stack
         }
         return rec.Pop();
     }
+
+    public int CarFleet(int target, int[] position, int[] speed) { //https://leetcode.com/problems/car-fleet/
+        Array.Sort(position, speed);
+        int n = position.Length - 1;
+        double arrivalUnit = (double)(target - position[n]) / speed[n];
+        Stack<double> rec = new();
+        rec.Push(arrivalUnit);
+        for(int i = position.Length - 2; i >= 0; i--){
+            arrivalUnit = (double)(target - position[i]) / speed[i];
+            if(rec.Peek() < arrivalUnit) rec.Push(arrivalUnit);
+        }
+        return rec.Count;
+    }
 }
