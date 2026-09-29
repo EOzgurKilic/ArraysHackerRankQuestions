@@ -34,19 +34,38 @@ public class SlidingWindow
     
     //------ Medium Questions ------
     public static int LengthOfLongestSubstring(string s) { //https://leetcode.com/problems/longest-substring-without-repeating-characters
+        //"s consists of English letters, digits, symbols and spaces."
+        //This means there can be 128 character types in max (This definition fits ASCII table) and we can set this to an array to do the mapping rather than hashset or dictionary.
+        //if it wasn't, then we would base the array size on Unicode 16 which approximately equals 66k
+        int l = 0, r = 0;
+        int[] rec = new int[128];
+        int result = 0;
+        while (r < s.Length){
+            rec[s[r]]++;
+            if(rec[s[r]] > 1){
+                result = Math.Max(result, r - l);
+                while(rec[s[r]] > 1){
+                    rec[s[l]]--;
+                    l++;
+                }
+            }
+            r++;
+        }
+        return result > (r-l)? result: r - l;
+
+
         //Time Complexity: O(n)
         //Space Complexity: O(m) space where m is the total number of unique characters in the string.
-        Dictionary<char, int> dic = new Dictionary<char, int>();
+        /*Dictionary<char, int> dic = new Dictionary<char, int>();
         int l = 0, res = 0;
-
         for (int r = 0; r < s.Length; r++) {
             if (dic.TryGetValue(s[r], out int val)) {
-                l = Math.Max(val, l);
+                l = Math.Max(val + 1, l);
             }
             dic[s[r]] = r;
             res = Math.Max(res, r - l + 1);
         }
-        return res;
+        return res;*/
     }
     
     public static int CharacterReplacement(string s, int k) { //https://leetcode.com/problems/longest-repeating-character-replacement
